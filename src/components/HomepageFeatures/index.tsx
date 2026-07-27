@@ -41,10 +41,10 @@ export default function HomepageFeatures(): JSX.Element {
 
       <div className={styles.buttonGroup}>
         <a href="/docs/intro" className={styles.primaryButton}>
-          快速开始
+          使用文档
         </a>
-        <a href="https://github.com" className={styles.secondaryButton}>
-          GitHub
+        <a href="https://aihub.skrepy.dpdns.org/" className={styles.secondaryButton}>
+          AIhub官网
         </a>
       </div>
 

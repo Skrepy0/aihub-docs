@@ -41,9 +41,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl: 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          editUrl: 'https://github.com/Skrepy0/aihub-docs/tree/main/',
         },
         theme: {
           customCss: './src/css/custom.css',
@@ -68,7 +66,7 @@ const config: Config = {
     // 颜色模式配置（默认跟随系统）
     colorMode: {
       respectPrefersColorScheme: true,
-      defaultMode: 'dark', // 可改为 'light' 或 'dark'
+      defaultMode: 'dark',
     },
 
     // 公告栏（可选，展示版本信息或重要通知）
@@ -95,7 +93,7 @@ const config: Config = {
           label: '文档',
         },
         {
-          href: 'https://github.com/your-org/aihub',
+          href: 'https://github.com/Skrepy0/aihub-docs',
           label: 'GitHub',
           position: 'right',
         },
@@ -104,7 +102,6 @@ const config: Config = {
 
     // 页脚
     footer: {
-      style: 'dark',
       links: [
         {
           title: '文档',
@@ -120,7 +117,7 @@ const config: Config = {
           items: [
             {
               label: 'GitHub Issues',
-              href: 'https://github.com/Skrepy0/AIhub/issues',
+              href: 'https://github.com/Skrepy0/aihub-docs/issues',
             },
           ],
         },
@@ -145,7 +142,7 @@ const config: Config = {
       theme: prismThemes.github,
       darkTheme: prismThemes.nightOwl,
       defaultLanguage: 'javascript',
-      additionalLanguages: ['bash', 'json', 'yaml', 'python'], // 根据需求添加
+      additionalLanguages: ['bash', 'json', 'yaml', 'python', 'javascript', 'typescript', 'java'],
     },
   } satisfies Preset.ThemeConfig,
 };
