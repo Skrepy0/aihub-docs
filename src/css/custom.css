@@ -1,0 +1,85 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #2e8555;
+  --ifm-color-primary-dark: #29784c;
+  --ifm-color-primary-darker: #277148;
+  --ifm-color-primary-darkest: #205d3b;
+  --ifm-color-primary-light: #33925d;
+  --ifm-color-primary-lighter: #359962;
+  --ifm-color-primary-lightest: #3cad6e;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  /* ---------- AIhub 自定义主题变量 ---------- */
+  /* 背景渐变 (亮色主题) */
+  --aihub-bg-start: #f0f2ff;
+  --aihub-bg-mid: #e8ecff;
+  --aihub-bg-end: #d5dbff;
+
+  /* 标题渐变 */
+  --aihub-title-start: #4f6ef7;
+  --aihub-title-end: #a855f7;
+
+  /* 主按钮颜色 */
+  --aihub-primary: #4f6ef7;
+  --aihub-primary-hover: #6b85f9;
+
+  /* 次按钮边框 */
+  --aihub-secondary-border: #4f6ef7;
+  --aihub-secondary-hover-bg: rgba(79, 110, 247, 0.15);
+
+  /* 卡片背景 (亮色) */
+  --aihub-card-bg: rgba(255, 255, 255, 0.7);
+  --aihub-card-border: rgba(0, 0, 0, 0.06);
+  --aihub-card-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --aihub-card-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.12);
+
+  /* 文字颜色 (亮色) */
+  --aihub-text-color: #1a1a2e;
+  --aihub-text-secondary: rgba(0, 0, 0, 0.6);
+
+  /* Logo 光晕 */
+  --aihub-logo-glow: rgba(79, 110, 247, 0.3);
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #25c2a0;
+  --ifm-color-primary-dark: #21af90;
+  --ifm-color-primary-darker: #1fa588;
+  --ifm-color-primary-darkest: #1a8870;
+  --ifm-color-primary-light: #29d5b0;
+  --ifm-color-primary-lighter: #32d8b4;
+  --ifm-color-primary-lightest: #4fddbf;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  /* ---------- AIhub 自定义主题变量 (暗色) ---------- */
+  --aihub-bg-start: #0f0c29;
+  --aihub-bg-mid: #302b63;
+  --aihub-bg-end: #24243e;
+
+  --aihub-title-start: #667eea;
+  --aihub-title-end: #764ba2;
+
+  --aihub-primary: #667eea;
+  --aihub-primary-hover: #7a92f0;
+
+  --aihub-secondary-border: #667eea;
+  --aihub-secondary-hover-bg: rgba(102, 126, 234, 0.15);
+
+  --aihub-card-bg: rgba(255, 255, 255, 0.05);
+  --aihub-card-border: rgba(255, 255, 255, 0.08);
+  --aihub-card-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  --aihub-card-shadow-hover: 0 16px 48px rgba(0, 0, 0, 0.3);
+
+  --aihub-text-color: #fff;
+  --aihub-text-secondary: rgba(255, 255, 255, 0.7);
+
+  --aihub-logo-glow: rgba(102, 126, 234, 0.5);
+}
