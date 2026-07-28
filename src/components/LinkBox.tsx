@@ -14,7 +14,7 @@ export default function LinkBox({ url, title, subtitle, icon, tip = '前往以�
       </div>
       <div className="link-card__info">
         <div className="link-card__title">{title}</div>
-        {subtitle ? <div className="link-card__subtitle">{subtitle}</div> : <></>}
+        {subtitle ?? <div className="link-card__subtitle">{subtitle}</div>}
       </div>
     </a>
   );

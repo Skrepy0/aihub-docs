@@ -70,13 +70,13 @@ const config: Config = {
     },
 
     // 公告栏（可选，展示版本信息或重要通知）
-    // announcementBar: {
-    //   id: 'announcement',
-    //   content: '🚀 AIhub 已发布 v1.0.0，支持 OpenAI、Anthropic、Google 等主流模型',
-    //   backgroundColor: '#2e8555', // 可在自定义 CSS 中覆盖
-    //   textColor: '#fff',
-    //   isCloseable: true,
-    // },
+    announcementBar: {
+      id: 'announcement',
+      content: 'AIhub 仍在搭建中, AIhub Docs 主页仅为示例界面',
+      backgroundColor: '#ffb300',
+      textColor: '#fff',
+      isCloseable: true,
+    },
 
     // 导航栏
     navbar: {

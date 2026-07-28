@@ -6,7 +6,7 @@ export default function Picture({ url, height, info, pos = 'center' }: PicturePr
   return (
     <div className="picture-wrapper" style={{ textAlign: pos }}>
       <img src={url} style={imgStyle} className="picture-img" alt={info || ''} />
-      {info ? <div className="picture-caption">{info}</div> : <></>}
+      {info ?? <div className="picture-caption">{info}</div>}
     </div>
   );
 }
