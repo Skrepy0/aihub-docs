@@ -19,6 +19,9 @@ importers:
       '@easyops-cn/docusaurus-search-local':
         specifier: ^0.55.2
         version: 0.55.2(@docusaurus/faster@3.10.2(@docusaurus/types@3.10.2(@swc/core@1.15.46)(postcss@8.5.23)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(postcss@8.5.23))(@docusaurus/theme-common@3.10.2(@docusaurus/plugin-content-docs@3.10.2(@docusaurus/faster@3.10.2(@docusaurus/types@3.10.2(@swc/core@1.15.46)(postcss@8.5.23)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(postcss@8.5.23))(@mdx-js/react@3.1.1(@types/react@19.2.17)(react@19.2.8))(@rspack/core@1.7.12)(@swc/core@1.15.46)(postcss@8.5.23)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@6.0.3))(@swc/core@1.15.46)(postcss@8.5.23)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(@mdx-js/react@3.1.1(@types/react@19.2.17)(react@19.2.8))(@rspack/core@1.7.12)(@swc/core@1.15.46)(postcss@8.5.23)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@6.0.3)
+      '@iconify/react':
+        specifier: ^6.0.2
+        version: 6.0.2(react@19.2.8)
       '@mdx-js/react':
         specifier: ^3.0.0
         version: 3.1.1(@types/react@19.2.17)(react@19.2.8)
@@ -1269,6 +1272,14 @@ packages:
 
   '@hapi/topo@5.1.0':
     resolution: { integrity: sha512-foQZKJig7Ob0BMAYBfcJk8d77QtOe7Wo4ox7ff1lQYoNNAb6jwcY1ncdoy2e9wQZzvNy7ODZCYJkK8kzmcAnAg== }
+
+  '@iconify/react@6.0.2':
+    resolution: { integrity: sha512-SMmC2sactfpJD427WJEDN6PMyznTFMhByK9yLW0gOTtnjzzbsi/Ke/XqsumsavFPwNiXs8jSiYeZTmLCLwO+Fg== }
+    peerDependencies:
+      react: '>=16'
+
+  '@iconify/types@2.0.0':
+    resolution: { integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg== }
 
   '@jest/schemas@29.6.3':
     resolution: { integrity: sha512-mo5j5X+jIZmJQveBKeS/clAueipV7KgiX1vMgCxam1RNYiqE1w62n0/tJJnHtjW8ZHcQco5gY85jA3mi0L+nSA== }
@@ -7880,6 +7891,13 @@ snapshots:
   '@hapi/topo@5.1.0':
     dependencies:
       '@hapi/hoek': 9.3.0
+
+  '@iconify/react@6.0.2(react@19.2.8)':
+    dependencies:
+      '@iconify/types': 2.0.0
+      react: 19.2.8
+
+  '@iconify/types@2.0.0': {}
 
   '@jest/schemas@29.6.3':
     dependencies:

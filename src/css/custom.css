@@ -47,6 +47,33 @@
   /* Logo 光晕 */
   --aihub-logo-glow: rgba(79, 110, 247, 0.3);
   --transition-duration: 0.3s;
+
+  --link-card-bg-start: #ffffff;
+  --link-card-bg-end: #f8fafc;
+  --link-card-border: rgba(255, 255, 255, 0.3);
+  --link-card-hover-border: rgba(59, 186, 129, 0.3);
+  --link-card-hover-bg-start: #ffffff;
+  --link-card-hover-bg-end: #ece5f7;
+  --link-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --link-card-hover-shadow: 0 20px 28px -12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.02);
+  --link-card-title-color: #1e293b;
+  --link-card-subtitle-color: #5b6e8c;
+  --link-card-tip-color: #6c7a8e;
+  --link-card-icon-color: #6c7a8e;
+  --link-card-icon-hover-color: #3eaf7c;
+  --link-card-divider-color: #e2e8f0;
+  --link-card-icon-bg: #ffffff;
+  --link-card-icon-shadow: 0 4px 10px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(0, 0, 0, 0.02);
+  --link-card-padding: 12px 16px 12px 8px;
+  --link-card-radius: 20px;
+  --link-card-icon-size: 64px;
+  --link-card-icon-img: 48px;
+  --link-card-gap: 4px;
+  --link-card-margin: 16px;
+  --link-card-transition: 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  --link-card-title-size: 1rem;
+  --link-card-subtitle-size: 0.75rem;
+  --link-card-tip-size: 0.7rem;
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
@@ -83,6 +110,22 @@
   --aihub-text-secondary: rgba(255, 255, 255, 0.7);
 
   --aihub-logo-glow: rgba(102, 126, 234, 0.5);
+
+  --link-card-bg-start: #26272c;
+  --link-card-bg-end: #1e1f24;
+  --link-card-border: #3a3b42;
+  --link-card-hover-border: #4a6b5c;
+  --link-card-hover-bg-start: #2d2e35;
+  --link-card-hover-bg-end: #2a2630;
+  --link-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --link-card-hover-shadow: 0 20px 28px -12px rgba(0, 0, 0, 0.4);
+  --link-card-title-color: #eef2ff;
+  --link-card-subtitle-color: #9ca3af;
+  --link-card-tip-color: #9ca3af;
+  --link-card-icon-color: #9ca3af;
+  --link-card-divider-color: #3a3b42;
+  --link-card-icon-bg: #1e1f24;
+  --link-card-icon-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 html,

@@ -1,9 +1,5 @@
 import React from 'react';
-
-interface HighlightProps {
-  children: React.ReactNode;
-  color: string;
-}
+import { HighlightProps } from '../utils/interface';
 
 export default function Highlight({ children, color }: HighlightProps) {
   return (
