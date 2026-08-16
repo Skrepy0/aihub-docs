@@ -1,0 +1,18 @@
+{
+  "title": {
+    "message": "AIhub Docs",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "AIhub Logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Docs / 文档": {
+    "message": "Docs / 文档",
+    "description": "Navbar item with label Docs / 文档"
+  },
+  "item.label.Getting Started / 快速开始": {
+    "message": "Getting Started / 快速开始",
+    "description": "Navbar item with label Getting Started / 快速开始"
+  }
+}

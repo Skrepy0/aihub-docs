@@ -1,187 +1,76 @@
 ---
-title: API 密钥管理
+title: API Key Management
 sidebar_position: 3
 ---
 
-# API 密钥管理
+# API Key Management
 
-API 密钥(API Key) 是 AIhub 用于识别请求发起方的凭证。在客户端或代码中正确配置 API Key 后，即可通过 AIhub 发起服务调用。
-
-本文档涵盖以下内容：
-
-- API Key 的定义与作用
-- 创建入口与初始操作
-- 查看、复制与使用方式
-- 重置与禁用流程
-- 安全策略与常见异常处理
+This page explains how to create, use, and protect AIhub API keys.
 
 ---
 
-## API Key 的定义与作用
+## What an API key is
 
-API Key 是一个固定长度的字符串，用于在每次 API 请求中携带身份信息。AIhub 服务端依据该 Key 执行以下判定：
-
-- 请求是否具备访问权限
-- 是否允许调用特定模型
-- 是否触发速率限制、配额约束或其他策略条件
-
-API 密钥等价于账户的访问令牌，其安全性直接影响资源使用的可控性。
+An API key is the credential used to identify and authorize requests to AIhub. Each key is tied to a model group and can only access the models in that group.
 
 ---
 
-## 创建 API Key
+## Create a key
 
-[点此跳转到API密钥页面](https://aihub.skrepy.dpdns.org/keys)
-
-登录 AIhub 控制台，进入“API密钥”页面，点击右上角“创建API密钥”。系统生成后，页面提供以下操作入口：
-
-- 复制 Key 字符串
-- 编辑密钥信息
-- 禁用 Key（临时冻结）
-
-### 创建后注意事项
-
-密钥生成后，请勿将密钥直接粘贴到聊天工具、论坛或通过截图传播。
-
-### 多应用场景下的密钥隔离策略
-
-若存在多个独立应用或服务，**建议为每个应用单独创建 API 密钥**。隔离策略的优势：
-
-- 单一密钥泄露时，仅需重置该密钥，不影响其他服务
-- 便于按应用统计调用量、定位异常来源
-- 降低因配置错误导致全局不可用的风险
+1. Log in to the AIhub console
+2. Open the API Key management page
+3. Click create key
+4. Fill in the key name and group
+5. Optionally set an expiration time
+6. Save the key and copy it immediately
 
 ---
 
-## API Key 的使用方式
+## Key fields
 
-### HTTP 请求头携带
-
-所有 AIhub API 调用均需在 HTTP 请求头中附加 Key：
-
-```http
-Authorization: Bearer YOUR_API_KEY
-```
-
-关键约束：
-
-- `Bearer` 前缀不可省略
-- `YOUR_API_KEY` 必须替换为实际创建的完整 Key 字符串
-- 请求头大小写敏感，建议按标准格式填写
-
-### 在 OpenAI 兼容客户端中的配置
-
-对于兼容 OpenAI SDK 的第三方客户端，通常需要填写三个字段：
-
-- **API Key**：填入 AIhub 生成的 Key
-- **Base URL**：`https://aihub.skrepy.dpdns.org/`（注意末尾斜杠）
-- **Model**：填入当前可用的模型名称（从控制台获取）
-
-### 在代码中引用（环境变量方式）
-
-推荐通过环境变量注入 Key，避免硬编码。示例：
-
-```bash
-AIHUB_API_KEY=sk-xxxxxx
-```
-
-代码读取方式（Node.js）：
-
-```javascript
-const key = process.env.AIHUB_API_KEY;
-```
-
-环境变量方式的优势：
-
-- 避免 Key 泄露至版本控制系统
-- 便于不同环境（开发、测试、生产）快速切换
-- 符合十二要素应用配置原则
+- **Name**: a human-readable label for the key
+- **Group**: the model group the key can access
+- **Expiration**: optional validity period
 
 ---
 
-## 查看与复制 Key
+## Usage notes
 
-在 API 密钥管理页面，找到目标 Key 所在行，点击 API 密钥 栏目下的复制图标即可。
-
-若复制后调用仍失败，优先检查以上三点。
-
----
-
-## 重置 Key
-
-当 Key 存在泄露风险时，应立即执行重置操作。重置将生成新的 Key 字符串，旧 Key 立即失效。
-
-### 适用重置的场景
-
-- Key 被意外提交到公开代码仓库
-- Key 出现在聊天记录、邮件或公共文档中
-- Key 被截图并对外可见
-- 部署环境变更（如服务器迁移、容器重建）
-- 安全审计要求定期轮换凭证
-
-### 重置后的强制操作
-
-重置后，所有使用旧 Key 的客户端或服务必须同步更新为新 Key，否则将收到认证失败响应。需更新的位置包括：
-
-- 本地开发环境变量
-- 服务器运行环境配置
-- CI/CD 脚本中的 secret 变量
-- 第三方客户端配置界面
-- 自动化定时任务或 Webhook 配置
+- Use one key per application or environment when possible
+- Store keys in environment variables or secret managers
+- Avoid putting keys directly into source code or shared config files
 
 ---
 
-## 禁用 Key
+## Rotate or revoke a key
 
-禁用操作可使 Key 暂时失效，而不彻底删除。适用于以下临时场景：
+Reset or revoke a key immediately if:
 
-- 某应用暂停服务，需暂停其调用
-- 排查某 Key 是否存在异常高频调用或滥用行为
-- 在决定是否永久删除前进行观察
-
-禁用后的 Key 仍保留在列表中，可随时重新启用。
-
----
-
-## 安全规范
-
-API Key 属于高敏感凭据，必须遵循以下强制性规则：
-
-- **禁止** 提交至任何公开或私有 Git 仓库（即使私有也可能被扫描）
-- **禁止** 通过截图、录屏等方式在非安全环境中展示
-- **禁止** 硬编码在前端代码或客户端可反编译的二进制文件中
-- **禁止** 将同一 Key 共享给非授权人员或团队
-
-怀疑 Key 已泄露时，**不得** 继续观察或延迟处理，应立即执行重置并通知相关方。
+- It is accidentally exposed
+- It has been committed to a repository
+- It is no longer needed
+- You suspect unauthorized access
 
 ---
 
-## 常见问题诊断
+## Troubleshooting
 
-### 返回 401 Unauthorized
+### Key cannot be used
 
-可能原因与排查顺序：
+Check whether:
 
-1. Key 字符串本身错误（拼写、截断、多余空格）
-2. 请求头未包含 `Bearer` 前缀或格式错误（如使用 `Basic`）
-3. Key 已过期或被重置，当前使用的为旧值
-4. Key 被禁用
-5. 复制时误将 Key 描述文本一并粘贴
+- The key is active
+- The key has access to the requested model
+- The request header uses `Authorization: Bearer <key>`
 
-### 多个应用共用同一个 Key
+### Key expired
 
-技术上可行，但不推荐。共用 Key 将丧失审计粒度，且一旦泄露影响面扩大。应按照“多应用场景下的 Key 隔离策略”进行隔离。
-
-### 更换 Key 的可行性
-
-支持随时更换。更换后只需将新 Key 更新至所有调用点，旧 Key 在重置后立即失效。建议更换后保留旧 Key 若干小时用于过渡，但旧 Key 应在切换完成后再执行重置（若需要立即废弃则直接重置）。
+Create a new key and update the client configuration.
 
 ---
 
-## 后续步骤
+## Related pages
 
-成功获取并配置 API Key 后，可继续查阅以下文档：
-
-- [快速开始](./quickstart) —— 首次调用示例
-- [客户端接入](./clients) —— 各语言/框架集成指南
-- [常见问题](./faq) —— 其他高频问题汇总
+- [Quick Start](./quickstart)
+- [Client Integration](./clients)
+- [FAQ](./faq)

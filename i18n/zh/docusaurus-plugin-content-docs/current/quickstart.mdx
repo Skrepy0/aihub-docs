@@ -1,0 +1,270 @@
+---
+title: AIhub 快速开始
+slug: /quickstart
+sidebar_position: 2
+---
+
+# AIhub 快速开始
+
+本文档引导完成从零到第一次成功调用 AIhub API 的完整流程。阅读完毕后，应能够：
+
+- 获取有效的 API 密钥
+- 配置正确的服务端地址
+- 成功发起并收到第一条请求响应
+
+---
+
+## 前置准备
+
+AIhub 的接入流程包含四个基本步骤：
+
+1. 登录 [AIhub](https://aihub.skrepy.dpdns.org) 控制台
+2. 创建 [API 密钥](https://aihub.skrepy.dpdns.org/keys)
+3. 在客户端或代码中配置 Key 和 Base URL
+4. 选择可用模型并发起测试请求
+
+其中两个核心配置值：
+
+- **API 密钥(Key)**：身份凭证，用于认证请求方
+- **Base URL**：服务端地址，用于指定请求目标
+
+AIhub 服务端地址：
+
+```text
+https://aihub.skrepy.dpdns.org/
+```
+
+该地址适用于所有 OpenAI 兼容客户端和示例代码。
+
+---
+
+## 创建 API 密钥
+
+[点此跳转到API密钥页面](https://aihub.skrepy.dpdns.org/keys)
+
+登录 AIhub 控制台后，进入 API 密钥 管理页面，点击创建 API 密钥。页面提供以下操作入口：
+
+- 复制 Key 字符串
+- 编辑密钥信息
+- 禁用 Key（临时冻结）
+
+### 创建后注意事项
+
+密钥生成后，请勿将密钥直接粘贴到聊天工具、论坛或通过截图传播。
+
+### 何时需要重置 Key
+
+出现以下情况时应立即重置 Key：
+
+- Key 被公开至聊天记录、邮件或公共文档
+- Key 被提交至代码仓库（包括私有仓库）
+- 怀疑他人已获取该 Key
+- 当前运行环境不再可信（如服务器迁移、人员变动）
+
+---
+
+## Base URL 配置说明
+
+不同客户端对服务端地址的字段命名存在差异，常见名称包括：
+
+- Base URL
+- API Base
+- Endpoint
+- Server URL
+
+无论字段名称如何，统一填入：
+
+```text
+https://aihub.skrepy.dpdns.org/
+```
+
+### 常见配置错误
+
+- 仅填写域名，缺少接口路径前缀
+- 复制时带入多余空格或换行符
+- 使用了错误的测试地址或已废弃的旧地址
+- 末尾添加了多余的路径片段（除标准 `/v1` 外）
+
+---
+
+## API 密钥 配置位置
+
+### 第三方客户端
+
+支持 OpenAI 兼容协议的客户端通常提供以下配置字段：
+
+| 字段     | 填写内容                          |
+| -------- | --------------------------------- |
+| API 密钥 | AIhub 创建的 Key                  |
+| Base URL | `https://aihub.skrepy.dpdns.org/` |
+| Model    | 可用模型名称                      |
+
+### 代码中配置
+
+推荐通过环境变量注入，避免硬编码：
+
+```bash
+AIHUB_API_KEY=sk-xxxxxx
+AIHUB_BASE_URL=https://aihub.skrepy.dpdns.org/
+```
+
+程序读取示例（Node.js）：
+
+```javascript
+const apiKey = process.env.AIHUB_API_KEY;
+const baseUrl = process.env.AIHUB_BASE_URL;
+```
+
+### 服务器与部署平台
+
+在云服务器、容器环境或在线部署平台中，应将 Key 和 Base URL 写入平台提供的环境变量或 Secret 管理功能，而非写入配置文件。
+
+---
+
+## 发起首次请求
+
+以下示例为最小可用调用。使用时替换以下占位符：
+
+- `YOUR_API_KEY`：实际创建的 API 密钥
+- `model`：当前 Key 有权限调用的模型名称
+
+### curl
+
+```bash
+curl https://aihub.skrepy.dpdns.org/v1/chat/completions \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-4o-mini",
+    "messages": [
+      {
+        "role": "user",
+        "content": "你好，你是什么模型"
+      }
+    ]
+  }'
+```
+
+### JavaScript (Node.js)
+
+```javascript
+const response = await fetch('https://aihub.skrepy.dpdns.org/v1/chat/completions', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${process.env.AIHUB_API_KEY}`,
+  },
+  body: JSON.stringify({
+    model: 'gpt-4o-mini',
+    messages: [{ role: 'user', content: '你好，你是什么模型' }],
+  }),
+});
+
+const data = await response.json();
+console.log(data);
+```
+
+### Python
+
+```python
+import os
+import requests
+
+url = "https://aihub.skrepy.dpdns.org/v1/chat/completions"
+headers = {
+    "Authorization": f"Bearer {os.getenv('AIHUB_API_KEY')}",
+    "Content-Type": "application/json",
+}
+body = {
+    "model": "gpt-4o-mini",
+    "messages": [
+        {"role": "user", "content": "你好，你是什么模型"}
+    ],
+}
+
+response = requests.post(url, headers=headers, json=body)
+print(response.json())
+```
+
+---
+
+## 客户端配置示例
+
+支持 OpenAI 兼容协议的客户端，配置字段填写方式如下：
+
+| 字段     | 填写内容                          |
+| -------- | --------------------------------- |
+| API 密钥 | AIhub 创建的 Key                  |
+| Base URL | `https://aihub.skrepy.dpdns.org/` |
+| Model    | 可用模型名称                      |
+
+### 验证配置
+
+配置完成后，发送一条简单测试消息：
+
+> 你好
+
+若能收到正常响应，说明以下各项均正确：
+
+- API 密钥 有效
+- Base URL 指向正确
+- 模型名称可用
+- 客户端配置已生效
+
+---
+
+## 故障排查
+
+### 401 Unauthorized
+
+检查以下项目：
+
+- API 密钥 是否完整复制，无多余空格或换行
+- 请求头是否包含 `Authorization: Bearer <key>`
+- Key 是否已被重置或禁用
+
+### 403 Forbidden
+
+检查以下项目：
+
+- 当前 Key 是否具备所请求模型的访问权限
+- 模型名称是否在分组权限范围内
+
+### 429 Too Many Requests
+
+检查以下项目：
+
+- 是否在短时间内发送了过多请求
+- 代码中是否存在循环调用或过快的重试逻辑
+
+### 客户端连接失败
+
+检查以下项目：
+
+- Base URL 是否为 `https://aihub.skrepy.dpdns.org/`
+- 客户端是否支持 OpenAI 兼容协议
+- 当前网络能否访问该域名
+
+---
+
+## 推荐操作顺序
+
+按以下步骤可最快完成接入验证：
+
+1. 登录 AIhub 控制台
+2. 创建 API 密钥 并立即保存
+3. 复制 Base URL
+4. 在客户端或代码中填入 Key 和 Base URL
+5. 选择可用模型
+6. 发送“你好”测试消息
+7. 验证通过后接入正式应用
+
+---
+
+## 后续步骤
+
+完成首次接入后，可继续阅读：
+
+- [API 密钥 管理](./api-key)
+- [客户端接入](./clients)
+- [常见问题](./faq)

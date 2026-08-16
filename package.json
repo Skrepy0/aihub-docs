@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "clean-dev": "docusaurus clear && docusaurus start",
+    "clean-dev": "docusaurus clear && pnpm run build && docusaurus start",
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
