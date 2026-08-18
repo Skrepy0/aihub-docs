@@ -3,6 +3,12 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
+const currentLocale = process.env.DOCUSAURUS_CURRENT_LOCALE || 'en';
+const announcementContent =
+  {
+    en: 'AIhub is still under construction, and the AIhub Docs homepage is a demo layout.',
+    zh: 'AIhub 仍在搭建中，AIhub Docs 主页仅为示例界面',
+  }[currentLocale] || 'AIhub is still under construction...';
 
 const config: Config = {
   title: 'AIhub Docs',
@@ -74,8 +80,7 @@ const config: Config = {
     // 公告栏（可选，展示版本信息或重要通知）
     announcementBar: {
       id: 'announcement',
-      content:
-        'AIhub is still under construction, and the AIhub Docs homepage is a demo layout. / AIhub 仍在搭建中，AIhub Docs 主页仅为示例界面',
+      content: announcementContent,
       backgroundColor: '#ffb300',
       textColor: '#fff',
       isCloseable: true,

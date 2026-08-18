@@ -7,7 +7,7 @@ import Picture from '@site/src/components/Picture';
 
 # Client Integration
 
-AIhub provides an OpenAI-compatible API and can be connected from any client that allows a custom API Base. This page uses Claude Code, Codex, and AnythingLLM as examples.
+AIhub provides an OpenAI-compatible interface, supporting integration with any client that allows a custom API Base. This page uses Claude Code, Codex, and AnythingLLM as examples to illustrate specific configuration methods.
 
 AIhub endpoint:
 
@@ -15,59 +15,59 @@ AIhub endpoint:
 https://aihub.skrepy.dpdns.org/
 ```
 
-> Field naming differs across clients: Claude Code uses `ANTHROPIC_BASE_URL` and `ANTHROPIC_AUTH_TOKEN`; Codex and AnythingLLM use `OPENAI_BASE_URL` and `OPENAI_API_KEY`. The sections below explain each client separately.
+> Field naming differences: Claude Code uses `ANTHROPIC_BASE_URL` and `ANTHROPIC_AUTH_TOKEN`; OpenAI-compatible clients like Codex and AnythingLLM use `OPENAI_BASE_URL` and `OPENAI_API_KEY`. The following sections describe the actual fields used by each client.
 
 ---
 
-## Before you start
+## Prerequisites
 
-Before configuring a client, make sure you have the following:
+Before starting configuration, confirm the following three items:
 
-- An API key created in AIhub
-- A model name that is currently available, for example `hy3`
-- Network access to `https://aihub.skrepy.dpdns.org/`
+- An API Key has been created in AIhub
+- The currently available model name is known (e.g., `hy3`)
+- The network can access `https://aihub.skrepy.dpdns.org/`
 
-Different clients use different names for the same values. The mapping is shown below:
+Different clients use different naming conventions for configuration items. The mapping is as follows:
 
-| Meaning  | Common field names                          |
-| -------- | ------------------------------------------- |
-| API Key  | API Key / Key / Token                       |
-| Base URL | Base URL / API Base / Endpoint / Server URL |
-| Model    | Model / Model Name / 模型名                 |
+| Actual meaning | Common field names                          |
+| -------------- | ------------------------------------------- |
+| API Key        | API Key / Key / Token                       |
+| Base URL       | Base URL / API Base / Endpoint / Server URL |
+| Model          | Model / Model Name                          |
 
 ---
 
 ## Claude Code
 
-Claude Code can be configured through environment variables or `settings.json`. To connect it to AIhub, point requests to AIhub and use the corresponding key.
+Claude Code specifies the model service address and key via environment variables or a `settings.json` file. To connect to AIhub, point the requests to AIhub and fill in the corresponding Key.
 
-### Configuration file locations
+### Configuration File Location
 
-Claude Code has two `settings.json` levels:
+Claude Code's `settings.json` has two levels:
 
-- **User level**: applies to all projects
+- **User-level**: applies to all projects
   - Windows: `%USERPROFILE%\.claude\settings.json`
   - macOS / Linux: `~/.claude/settings.json`
-- **Project level**: applies only to the current project
-  - `<project root>\\.claude\\settings.json`
+- **Project-level**: applies only to the current project
+  - `<project root>\.claude\settings.json`
 
-Example path on Windows:
+Example actual path (Windows):
 
 ```text
-C:\Users\YourName\.claude\settings.json
+C:\Users\YourUsername\.claude\settings.json
 ```
 
-If the file does not exist, create a new `settings.json` file.
+If the file does not exist, create a new `settings.json`.
 
-### Open the config file
+### Opening the Configuration File
 
-**Option 1: File manager**
+**Method 1: File Explorer**
 
-1. Open File Explorer and go to `C:\Users\YourName\.claude\`
+1. Open File Explorer and navigate to `C:\Users\YourUsername\.claude\`
 2. Find or create `settings.json`
 3. Open it with VS Code or Notepad
 
-**Option 2: Command line**
+**Method 2: Command Line**
 
 Windows (PowerShell):
 
@@ -81,9 +81,9 @@ macOS / Linux:
 code ~/.claude/settings.json
 ```
 
-### Full configuration example
+### Complete Configuration Example
 
-Here is a complete `settings.json` example for AIhub:
+Below is a full `settings.json` for connecting to AIhub:
 
 ```json
 {
@@ -109,42 +109,42 @@ Here is a complete `settings.json` example for AIhub:
 }
 ```
 
-### Configuration notes
+### Configuration Fields Explained
 
-**Model-related variables in `env`**
+**Model‑related variables in `env`**
 
-| Variable                         | Purpose                           | Example                          |
-| -------------------------------- | --------------------------------- | -------------------------------- |
-| `ANTHROPIC_AUTH_TOKEN`           | AIhub API key for authentication  | `sk-xxxxxx`                      |
-| `ANTHROPIC_BASE_URL`             | Request destination, set to AIhub | `https://aihub.skrepy.dpdns.org` |
-| `ANTHROPIC_MODEL`                | Default model                     | `hy3`                            |
-| `ANTHROPIC_SMALL_FAST_MODEL`     | Model used for lightweight tasks  | `hy3`                            |
-| `ANTHROPIC_DEFAULT_SONNET_MODEL` | Sonnet tier model                 | `hy3`                            |
-| `ANTHROPIC_DEFAULT_OPUS_MODEL`   | Opus tier model                   | `hy3`                            |
-| `ANTHROPIC_DEFAULT_HAIKU_MODEL`  | Haiku tier model                  | `hy3`                            |
-| `CLAUDE_CODE_SUBAGENT_MODEL`     | Model used by subagents           | `hy3`                            |
+| Variable                         | Purpose                               | Example                          |
+| -------------------------------- | ------------------------------------- | -------------------------------- |
+| `ANTHROPIC_AUTH_TOKEN`           | AIhub API Key for authentication      | `sk-xxxxxx`                      |
+| `ANTHROPIC_BASE_URL`             | Request endpoint, set to AIhub        | `https://aihub.skrepy.dpdns.org` |
+| `ANTHROPIC_MODEL`                | Default model                         | `hy3`                            |
+| `ANTHROPIC_SMALL_FAST_MODEL`     | Model used for lightweight/fast tasks | `hy3`                            |
+| `ANTHROPIC_DEFAULT_SONNET_MODEL` | Sonnet‑tier model                     | `hy3`                            |
+| `ANTHROPIC_DEFAULT_OPUS_MODEL`   | Opus‑tier model                       | `hy3`                            |
+| `ANTHROPIC_DEFAULT_HAIKU_MODEL`  | Haiku‑tier model                      | `hy3`                            |
+| `CLAUDE_CODE_SUBAGENT_MODEL`     | Model used by sub‑agents              | `hy3`                            |
 
-> When connecting only to AIhub, you do not have to set every tier variable to the same value. However, pointing them to a single available model avoids errors when Claude Code requests a tier-specific model.
+> If you are only connecting to AIhub, you are not required to set all tier variables to the same value; however, pointing them all to an available model prevents Claude Code from failing when it attempts to call a specific tier that is not available.
 
-**Other runtime variables**
+**Other runtime parameters**
 
-| Variable                                   | Purpose                               | Example |
-| ------------------------------------------ | ------------------------------------- | ------- |
-| `CLAUDE_CODE_MAX_OUTPUT_TOKENS`            | Maximum output tokens per response    | `81929` |
-| `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` | Disable non-essential network traffic | `1`     |
+| Variable                                   | Purpose                                          | Example |
+| ------------------------------------------ | ------------------------------------------------ | ------- |
+| `CLAUDE_CODE_MAX_OUTPUT_TOKENS`            | Maximum output tokens per response               | `81929` |
+| `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` | Disable non‑essential network requests, `1` = on | `1`     |
 
-**Top-level settings**
+**Top‑level configuration items**
 
-| Setting             | Purpose                               |
-| ------------------- | ------------------------------------- |
-| `env`               | Environment variables for Claude Code |
-| `permissions.allow` | Allowed command allowlist             |
-| `permissions.deny`  | Denied command list                   |
-| `enabledPlugins`    | Enabled plugin toggles                |
+| Config item         | Purpose                                            |
+| ------------------- | -------------------------------------------------- |
+| `env`               | Environment variables injected into Claude Code    |
+| `permissions.allow` | Whitelist of commands allowed to run automatically |
+| `permissions.deny`  | List of commands to block                          |
+| `enabledPlugins`    | Toggle for enabled plugins                         |
 
-### Minimum working config
+### Minimal Working Configuration
 
-If you only need to verify connectivity, this is enough:
+If you only need to verify connectivity, the following configuration is sufficient:
 
 ```json
 {
@@ -156,11 +156,11 @@ If you only need to verify connectivity, this is enough:
 }
 ```
 
-If no tier-specific model is set, Claude Code falls back to `ANTHROPIC_MODEL`.
+If tier‑specific models are not explicitly set, Claude Code falls back to `ANTHROPIC_MODEL`.
 
-### Configure through system environment variables
+### Configuring via System Environment Variables
 
-You can also set environment variables directly in the shell without editing the config file:
+You can also set environment variables directly in the terminal without modifying the configuration file:
 
 Windows (PowerShell):
 
@@ -178,132 +178,132 @@ export ANTHROPIC_BASE_URL=https://aihub.skrepy.dpdns.org
 export ANTHROPIC_MODEL=hy3
 ```
 
-> `ANTHROPIC_AUTH_TOKEN` and `ANTHROPIC_BASE_URL` in the environment take precedence over the values in `settings.json`.
+> Environment variables `ANTHROPIC_AUTH_TOKEN` and `ANTHROPIC_BASE_URL` take precedence over the settings in `settings.json`.
 
-### Steps
+### Configuration Steps
 
 1. Open `settings.json`
-2. Add `ANTHROPIC_AUTH_TOKEN` under `env`
-3. Add `ANTHROPIC_BASE_URL` under `env`
-4. Add `ANTHROPIC_MODEL` under `env`
+2. In `env`, fill in `ANTHROPIC_AUTH_TOKEN`
+3. In `env`, fill in `ANTHROPIC_BASE_URL`
+4. In `env`, fill in `ANTHROPIC_MODEL`
 5. Save the file and restart Claude Code
-6. Send a message to verify the setup
+6. Send a test message to verify
 
-### Common issues
+### Common Issues
 
-**Connection failed**
+**Connection failure**
 
-Check these items in order:
+Check in order:
 
 - Is `settings.json` valid JSON?
-- Does `ANTHROPIC_BASE_URL` contain extra spaces or a missing `https://` prefix?
-- Is `ANTHROPIC_AUTH_TOKEN` copied in full?
-- Did you restart Claude Code after editing?
-- Can your network reach `https://aihub.skrepy.dpdns.org`?
+- Does `ANTHROPIC_BASE_URL` contain extra spaces or omit `https://`?
+- Is `ANTHROPIC_AUTH_TOKEN` copied completely?
+- Did you restart Claude Code after making changes?
+- Can the network reach `https://aihub.skrepy.dpdns.org`?
 
 **JSON format error**
 
-This is usually caused by trailing commas, missing quotes, or mismatched braces. Start from the minimum config and add fields gradually.
+Usually caused by trailing commas, missing quotes, or mismatched braces. Revert to the minimal configuration and gradually add back settings.
 
-**Cannot chat after saving the config**
+**Cannot chat after saving configuration**
 
-This is usually caused by an unavailable model name, Claude Code not actually routing through AIhub, or AIhub not exposing the selected model. Use curl to verify the API first.
+Often caused by an unavailable model name, AIhub not supporting the specified model, or requests not actually going through AIhub. Use curl to verify the endpoint itself is working.
 
 ---
 
 ## Codex
 
-First install the Codex enhancement tool: [Codex++](https://codexpp.cc)
+First, download an enhancement tool for CodexApp: [Codex++](https://codexpp.cc)
 
-After installation, launch the Codex++ management tool.
+After downloading and installing, launch the Codex++ management tool.
 
-In the left sidebar, choose "Vendor Config" and add a new vendor.
+In the left sidebar, select "Provider Configuration", then add a provider.
 
-Set the integration mode to "Pure API".
+Choose "Pure API" as the integration mode.
 
-Set Base URL to `https://aihub.skrepy.dpdns.org/v1`.
+Fill in the Base URL as `https://aihub.skrepy.dpdns.org/v1`
 
-Then fill in your API key and the AI model you want to use.
+Then enter your `API Key` and the AI model you intend to use.
 
 <Picture url="/img/clients/codex_provider_config.webp" info="Codex provider example configuration" />
 
-Click Save in the upper-right corner, then select the vendor you just created.
+Click "Save" in the upper right corner, then select the provider you just created.
 
-Finally, click "Restart Codex++" in the upper-right corner to finish setup.
+Finally, click "Restart Codex++" in the upper right corner to complete the configuration.
 
 ---
 
 ## AnythingLLM
 
-AnythingLLM supports custom OpenAI-compatible providers through `Generic OpenAI`.
+AnythingLLM supports connecting to custom OpenAI‑compatible services via the `Generic OpenAI` provider.
 
-### Setup steps
+### Configuration Steps
 
-1. Open AnythingLLM (Desktop or Docker)
-2. Go to Settings → AI Provider → LLM
-3. Search for `Generic OpenAI` in the LLM provider list and select it
+1. Open the AnythingLLM application (Desktop or Docker)
+2. Go to Settings → AI Providers → Large Language Model (LLM)
+3. Type `Generic OpenAI` in the LLM provider search box and select it
 4. Fill in the Base URL
 5. Fill in the API Key
 6. Fill in the Chat Model Name
-7. Configure Token Context Window and Max Tokens if needed
-8. Save the settings
-9. Create a workspace and send a test message
+7. Adjust Token Context Window and Max Tokens as needed
+8. Save the configuration
+9. Create a new workspace and send a test message to verify
 
-### Fields
+### Fields to Fill
 
 <Picture url="/img/clients/AnythingLLM_config.webp" info="AnythingLLM configuration" />
 
-- **LLM Provider**: choose `Generic OpenAI`
+- **LLM Provider**: Select `Generic OpenAI`
 - **Base URL**: `https://aihub.skrepy.dpdns.org/v1`
-- **API Key**: your AIhub key
-- **Chat Model Name**: a valid model name such as `hy3`
-- **Token Context Window**: set according to model limits, such as `16000` or `128000`
-- **Max Tokens**: adjust as needed, such as `1024` or `2048`
+- **API Key**: Your AIhub Key
+- **Chat Model Name**: Available model name (e.g., `hy3`)
+- **Token Context Window**: Set according to model limits (e.g., `16000`, `128000`)
+- **Max Tokens**: Configure as needed (e.g., `1024`, `2048`)
 
-> AnythingLLM uses the `OPENAI_API_KEY` field; do not write `ANTHROPIC_*`.
+> AnythingLLM uses the `OPENAI_API_KEY` field; do not use `ANTHROPIC_*`.
 
 ### Troubleshooting
 
 - Is the provider set to `Generic OpenAI`?
-- Is the Base URL complete, including the `/v1` suffix?
-- Is the model available?
-- Did you save the configuration?
+- Is the Base URL complete (with `/v1` suffix)?
+- Is the model name available?
+- Was the configuration saved?
 
 ---
 
-## General configuration rules
+## General Configuration Principles
 
-The key differences between clients usually come down to two things:
+The key differences across clients are mainly in two areas:
 
-**Field naming system**:
+**Field naming conventions**:
 
-- Anthropic-style fields for Claude Code: `ANTHROPIC_*`
-- OpenAI-style fields for Codex and AnythingLLM: `OPENAI_*`
+- Anthropic style (Claude Code): uses `ANTHROPIC_*` prefix
+- OpenAI style (Codex, AnythingLLM and upper‑layer tools): uses `OPENAI_*` prefix
 
-Check the actual field names used by your client before configuring it.
+Before configuring, confirm the actual field names used by the client to avoid mixing them.
 
 **Base URL format**:
 
-- Most OpenAI-compatible clients require Base URL to end with `/v1`
-- Some clients, such as Claude Code, accept the root address without the suffix
+- Most OpenAI‑compatible clients require the Base URL to end with `/v1`
+- Some clients (e.g., Claude Code) accept the root address without the suffix
 - If connection fails, try adding or removing `/v1` at the end of the Base URL
 
 ---
 
-## Common troubleshooting order
+## General Troubleshooting Sequence
 
-When integration fails, check the following in order:
+If integration fails, check in this order:
 
-1. Is the key correct?
-2. Is the Base URL `https://aihub.skrepy.dpdns.org/`? (Pay attention to the `/v1` suffix.)
+1. Is the Key correct?
+2. Is the Base URL `https://aihub.skrepy.dpdns.org/` (pay attention to the `/v1` suffix)?
 3. Is the model name correct?
-4. Does the client support the OpenAI-compatible API?
+4. Does the client support the OpenAI‑compatible interface?
 5. Has the configuration been saved?
-6. Is there any network access restriction?
+6. Are there any network access restrictions?
 
 ---
 
-## Next steps
+## Next Steps
 
 - [Quick Start](./quickstart)
 - [API Key Management](./api-key)

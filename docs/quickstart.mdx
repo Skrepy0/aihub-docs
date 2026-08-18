@@ -5,127 +5,127 @@ sidebar_position: 2
 
 # AIhub Quick Start
 
-This guide walks you through the full process of making your first successful AIhub API call. After reading it, you should be able to:
+This document guides you through the complete process from zero to your first successful call to the AIhub API. After reading, you should be able to:
 
-- Obtain a valid API key
+- Obtain a valid API Key
 - Configure the correct server address
-- Send your first request and receive a response
+- Successfully send and receive your first request response
 
 ---
 
-## Preparation
+## Prerequisites
 
-The AIhub integration flow has four basic steps:
+The AIhub integration process consists of four basic steps:
 
 1. Log in to the [AIhub](https://aihub.skrepy.dpdns.org) console
-2. Create an [API key](https://aihub.skrepy.dpdns.org/keys)
-3. Configure the key and Base URL in your client or code
+2. Create an [API Key](https://aihub.skrepy.dpdns.org/keys)
+3. Configure the Key and Base URL in your client or code
 4. Select an available model and send a test request
 
-The two core values are:
+Two core configuration values:
 
-- **API Key**: the credential used to authenticate requests
-- **Base URL**: the server address that defines the request target
+- **API Key**: identity credential for authenticating the requester
+- **Base URL**: server address specifying the request target
 
-AIhub server address:
+AIhub server endpoint:
 
 ```text
 https://aihub.skrepy.dpdns.org/
 ```
 
-This address works for all OpenAI-compatible clients and sample code.
+This address applies to all OpenAI‑compatible clients and example code.
 
 ---
 
-## Create an API key
+## Creating an API Key
 
-[Go to the API key page](https://aihub.skrepy.dpdns.org/keys)
+[Click here to go to the API Key page](https://aihub.skrepy.dpdns.org/keys)
 
-After logging in, open the API key management page and click create. The page supports the following actions:
+After logging in to the AIhub console, go to the API Key management page and click "Create API Key". The page provides the following action options:
 
-- Copy the key string
-- Edit key details
-- Disable the key temporarily
+- Copy the Key string
+- Edit key information
+- Disable the Key (temporary freeze)
 
-### After creating a key
+### Post‑Creation Precautions
 
-Do not paste the key directly into chat tools, forums, or screenshots.
+After the key is generated, do not paste the key directly into chat tools, forums, or share it via screenshots.
 
-### When to reset a key
+### When to Reset a Key
 
-Reset the key immediately if any of the following happens:
+You should reset the Key immediately in the following situations:
 
-- The key is exposed in chat logs, emails, or public docs
-- The key is committed to a repository, including private repositories
-- You suspect someone else has obtained the key
-- The current environment is no longer trustworthy, such as after a server migration or personnel change
+- The Key has been exposed in chat logs, emails, or public documents
+- The Key has been committed to a code repository (including private repositories)
+- You suspect that someone else has obtained the Key
+- The current runtime environment is no longer trusted (e.g., server migration, personnel changes)
 
 ---
 
-## Base URL configuration
+## Base URL Configuration Notes
 
-Different clients may name the server address field differently. Common labels include:
+Different clients may use different field names for the server address. Common names include:
 
 - Base URL
 - API Base
 - Endpoint
 - Server URL
 
-No matter what the label is, fill in:
+Regardless of the field name, always enter:
 
 ```text
 https://aihub.skrepy.dpdns.org/
 ```
 
-### Common mistakes
+### Common Configuration Mistakes
 
-- Filling only the domain and forgetting the path prefix
-- Including extra spaces or line breaks while copying
-- Using an outdated test address
-- Appending an extra path segment beyond the standard `/v1`
+- Entering only the domain name without the required API path prefix
+- Including extra spaces or line breaks when copying
+- Using an incorrect test address or an obsolete old address
+- Adding extra path segments at the end (other than the standard `/v1`)
 
 ---
 
-## API key placement
+## API Key Configuration Location
 
-### Third-party clients
+### Third‑Party Clients
 
-OpenAI-compatible clients usually provide the following fields:
+Clients that support the OpenAI‑compatible protocol usually provide the following configuration fields:
 
 | Field    | Value                             |
 | -------- | --------------------------------- |
-| API Key  | The AIhub key                     |
+| API Key  | AIhub‑created Key                 |
 | Base URL | `https://aihub.skrepy.dpdns.org/` |
-| Model    | A valid model name                |
+| Model    | Available model name              |
 
-### In code
+### Configuring in Code
 
-We recommend injecting values through environment variables:
+It is recommended to inject the Key via environment variables to avoid hard‑coding:
 
 ```bash
 AIHUB_API_KEY=sk-xxxxxx
 AIHUB_BASE_URL=https://aihub.skrepy.dpdns.org/
 ```
 
-Node.js example:
+Example of reading in code (Node.js):
 
 ```javascript
 const apiKey = process.env.AIHUB_API_KEY;
 const baseUrl = process.env.AIHUB_BASE_URL;
 ```
 
-### Servers and deployment platforms
+### Servers and Deployment Platforms
 
-On cloud servers, containers, or hosted deployment platforms, store the key and Base URL in the platform's environment variables or secret manager instead of writing them into config files.
+On cloud servers, container environments, or online deployment platforms, you should store the Key and Base URL in the platform's environment variable or secret management feature, rather than writing them into configuration files.
 
 ---
 
-## Make your first request
+## Making Your First Request
 
-The following examples show the minimum viable call. Replace the placeholders with real values:
+The following examples are minimal working calls. Replace the placeholders:
 
-- `YOUR_API_KEY`: your actual API key
-- `model`: a model name the current key is allowed to use
+- `YOUR_API_KEY`: the actual API Key you created
+- `model`: a model name that your Key has permission to call
 
 ### curl
 
@@ -171,7 +171,7 @@ import requests
 
 url = "https://aihub.skrepy.dpdns.org/v1/chat/completions"
 headers = {
-    "Authorization": f"Bearer ${os.getenv('AIHUB_API_KEY')}",
+    "Authorization": f"Bearer {os.getenv('AIHUB_API_KEY')}",
     "Content-Type": "application/json",
 }
 body = {
@@ -187,26 +187,26 @@ print(response.json())
 
 ---
 
-## Client configuration example
+## Client Configuration Example
 
-OpenAI-compatible clients usually use the following field mapping:
+For clients that support the OpenAI‑compatible protocol, fill in the fields as follows:
 
 | Field    | Value                             |
 | -------- | --------------------------------- |
-| API Key  | The AIhub key                     |
+| API Key  | AIhub‑created Key                 |
 | Base URL | `https://aihub.skrepy.dpdns.org/` |
-| Model    | A valid model name                |
+| Model    | Available model name              |
 
-### Verify the configuration
+### Verifying Configuration
 
 After configuration, send a simple test message:
 
 > Hello
 
-If you get a normal response, the following items are correct:
+If you receive a normal response, it confirms that:
 
-- The API key is valid
-- The Base URL points to the right server
+- The API Key is valid
+- The Base URL is correct
 - The model name is available
 - The client configuration has taken effect
 
@@ -218,52 +218,52 @@ If you get a normal response, the following items are correct:
 
 Check the following:
 
-- The API key was copied completely without extra spaces or line breaks
-- The request header includes `Authorization: Bearer <key>`
-- The key has not been reset or disabled
+- Is the API Key copied completely without extra spaces or line breaks?
+- Does the request header include `Authorization: Bearer <key>`?
+- Has the Key been reset or disabled?
 
 ### 403 Forbidden
 
 Check the following:
 
-- The current key has permission for the requested model
-- The model name is within the group permissions
+- Does the current Key have permission to access the requested model?
+- Is the model name within the group permission scope?
 
 ### 429 Too Many Requests
 
 Check the following:
 
-- Too many requests were sent in a short period of time
-- The code has a loop or retry policy that is too aggressive
+- Have you sent too many requests in a short time?
+- Is there a loop call or overly aggressive retry logic in the code?
 
-### Client connection failed
+### Client Connection Failure
 
 Check the following:
 
-- The Base URL is `https://aihub.skrepy.dpdns.org/`
-- The client supports the OpenAI-compatible protocol
-- The current network can reach the domain
+- Is the Base URL `https://aihub.skrepy.dpdns.org/`?
+- Does the client support the OpenAI‑compatible protocol?
+- Can the current network access this domain?
 
 ---
 
-## Recommended flow
+## Recommended Workflow
 
-The fastest way to verify the integration is:
+To complete integration verification as quickly as possible, follow these steps:
 
 1. Log in to the AIhub console
-2. Create an API key and save it immediately
+2. Create an API Key and save it immediately
 3. Copy the Base URL
-4. Fill the key and Base URL into your client or code
-5. Choose an available model
-6. Send a "Hello" test message
-7. Integrate into your production application after verification
+4. Fill in the Key and Base URL in your client or code
+5. Select an available model
+6. Send a test message like "Hello"
+7. After verification, integrate into your production application
 
 ---
 
-## Next steps
+## Next Steps
 
-After your first integration, continue with:
+After completing your first integration, you may continue with:
 
-- [API key management](./api-key)
-- [Client integration](./clients)
+- [API Key Management](./api-key)
+- [Client Integration](./clients)
 - [FAQ](./faq)

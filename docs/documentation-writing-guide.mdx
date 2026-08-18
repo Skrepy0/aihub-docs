@@ -3,71 +3,495 @@ title: Documentation Writing Guide
 sidebar_position: 6
 ---
 
-# Documentation Writing Guide
+import Picture from '@site/src/components/Picture';
+import LinkBox from '@site/src/components/LinkBox';
 
-This page explains the style used in the AIhub docs and the preferred way to add or edit pages.
+# 📘 AIhub Docs Documentation Writing Guide
 
----
-
-## Writing principles
-
-- Keep explanations short and actionable
-- Start from the user task, then explain the details
-- Prefer examples over abstract descriptions
-- Keep field names, URLs, and model names accurate
+Welcome to contribute to AIhub Docs! This guide will help you quickly understand MDX syntax, Docusaurus framework, project structure, and usage of custom components. Please read the following carefully to efficiently create well-formatted and visually consistent documentation pages.
 
 ---
 
-## Page structure
+## 📝 1. Common MDX Formatting and Syntax
 
-A typical page should include:
+MDX is a combination of Markdown and JSX, allowing you to use React components directly in Markdown. All `.md` and `.mdx` files are parsed as MDX (we recommend using the `.mdx` extension).
 
-1. A clear title
-2. A short overview of the topic
-3. Step-by-step instructions or examples
-4. Common errors and fixes
-5. Links to related pages
+### 1.1 Basic YAML Syntax
+
+In Docusaurus, each MDX document can have a **YAML-formatted** configuration block at the **top**, enclosed by `---`, called **Front Matter**. It is used to define metadata such as the page title, sidebar position, description, etc.
+
+#### 🧱 Basic Data Types
+
+##### 1. String
+
+- Can be written without quotes, but it is recommended to use single quotes `'` or double quotes `"` if the string contains **special characters** (e.g., `:`, `#`, `[`, etc.).
+- **Example**:
+  ```yaml
+  title: Quick Start
+  description: 'Contains a colon: this is a description'
+  sidebar_label: 'Getting Started'
+  ```
+
+##### 2. Number
+
+- Supports integers and floating-point numbers, written directly.
+- **Example**:
+  ```yaml
+  sidebar_position: 1
+  version: 2.5
+  ```
+
+##### 3. Boolean
+
+- Can be written as `true` / `false`, or `yes` / `no`, `on` / `off` (`true` / `false` is recommended).
+- **Example**:
+  ```yaml
+  draft: false
+  hide_title: true
+  ```
+
+##### 4. List / Array
+
+- Use a dash `- ` with a space to denote list items.
+- **Example**:
+  ```yaml
+  keywords:
+    - docusaurus
+    - mdx
+    - yaml
+  ```
+- Inline compact format (similar to JSON) is also supported:
+  ```yaml
+  keywords: [docusaurus, mdx, yaml]
+  ```
+
+##### 5. Key-Value Pairs (Object / Mapping)
+
+- Use `key: value` format; **there must be a space after the colon**.
+- Nested structures are achieved via indentation.
+- **Example**:
+  ```yaml
+  author:
+    name: Skrepy
+    email: skrepy@example.com
+  ```
 
 ---
 
-## Language style
+#### ⚠️ Indentation Rules (Extremely Important)
 
-- Use plain language
-- Use consistent terminology across all pages
-- Keep the Chinese and English versions aligned in meaning
-- Avoid mixing untranslated labels into the wrong locale version
-
----
-
-## Code and configuration examples
-
-When adding code blocks:
-
-- Keep them minimal and runnable where possible
-- Use real field names and realistic values
-- Update examples when the integration flow changes
+- **Use spaces only** for indentation; **Tabs are strictly prohibited**.
+- The number of spaces for indentation at the same level must be consistent (usually 2 or 4 spaces).
+- Inconsistent indentation will cause parsing failures.
 
 ---
 
-## Linking rules
+#### 📝 Comments
 
-- Link to related docs pages using relative paths
-- Keep links working in both languages
-- Prefer canonical page names when possible
-
----
-
-## Suggested workflow for new content
-
-1. Draft the Chinese version if needed
-2. Add the English version with matching structure
-3. Review titles, headings, and links
-4. Build the site and test both locales
+- Use `#` at the beginning; everything from `#` to the end of the line is ignored.
+- **Example**:
+  ```yaml
+  # This is a comment
+  title: My Document # inline comment is also fine
+  ```
 
 ---
 
-## Related pages
+#### ✅ Correct Example
 
-- [Quick Start](./quickstart)
-- [Client Integration](./clients)
-- [FAQ](./faq)
+```yaml
+---
+# Document title
+title: 'YAML Syntax Guide'
+sidebar_position: 2
+description: Learn to use YAML correctly in MDX Front Matter
+keywords:
+  - yaml
+  - mdx
+  - frontmatter
+draft: false
+hide_title: false
+image: /img/share.png
+---
+```
+
+---
+
+#### ❌ Common Mistakes
+
+| Incorrect Writing                  | Correct Writing               | Reason                             |
+| ---------------------------------- | ----------------------------- | ---------------------------------- |
+| `title:Hello`                      | `title: Hello`                | Must have a space after colon      |
+| Using Tab for indentation          | Use spaces for indentation    | YAML disallows Tab                 |
+| `keywords: [docusaurus, mdx`       | `keywords: [docusaurus, mdx]` | Brackets must be closed            |
+| Mixed indentation (2 and 4 spaces) | Consistent indentation        | YAML strictly requires consistency |
+
+---
+
+### 1.2 Basic Markdown Syntax
+
+| Feature             | Example                                                                        |
+| ------------------- | ------------------------------------------------------------------------------ |
+| **Headings**        | `# Heading 1` `## Heading 2` ... `###### Heading 6`                            |
+| **Paragraphs**      | Write text directly, separate paragraphs with blank lines                      |
+| **Bold**            | `**Bold text**`                                                                |
+| **Italic**          | `*Italic text*`                                                                |
+| **Strikethrough**   | `~~Strikethrough~~`                                                            |
+| **Unordered List**  | `- Item 1` or `* Item 2`                                                       |
+| **Ordered List**    | `1. First item` `2. Second item`                                               |
+| **Link**            | `[Display text](https://example.com)`                                          |
+| **Image**           | `![Alt text](../img/logo.png)` (recommended to use custom `Picture` component) |
+| **Code Block**      | ` ```language` ... ` ``` `                                                     |
+| **Inline Code**     | `` `code` ``                                                                   |
+| **Blockquote**      | `> Quote content`                                                              |
+| **Table**           | `\| Column 1 \| Column 2 \|` etc.                                              |
+| **Horizontal Rule** | `---` or `***`                                                                 |
+
+### 1.3 Embedding React Components in MDX
+
+You can import and use React components directly in MDX files, just like in JSX:
+
+```
+import MyComponent from '@site/src/components/MyComponent';
+
+<MyComponent prop="value" />
+```
+
+Components can accept props and support nested children.
+
+> **Note**: JavaScript expressions can be executed inside `{}` in MDX, e.g., `{2 + 2}`.
+
+---
+
+## 🧩 2. Document Structure
+
+An MDX document mainly consists of three parts: the **Front Matter** at the top, followed by an optional **React component import section**, and the core **Markdown content**.
+
+Here is a breakdown of an example MDX document in Docusaurus:
+
+```mdx
+---
+title: 'Welcome to AIhub Docs' # ① Front Matter (metadata)
+sidebar_label: 'Home'
+description: 'Official documentation for AIhub Docs, including user guides and API references.'
+---
+
+# ② Import external components (optional)
+
+import LinkBox from '@site/src/components/LinkBox';
+import Picture from '@site/src/components/Picture';
+
+# ③ Body content
+
+## Quick Start
+
+This is the body of the document. You can use standard Markdown syntax.
+
+<Picture url="/img/logo.png" height="200" />
+
+You can also use the imported React components here:
+
+<LinkBox url="https://aihub.skrepy.dpdns.org/" title="AIhub" />
+```
+
+---
+
+### 2.1 Front Matter
+
+Front Matter is the YAML-formatted configuration block at the top of an MDX document, used to define page metadata such as title, description, sidebar label, etc. It is enclosed by three consecutive dashes `---`.
+
+#### Common Fields
+
+- **`title`** (optional): The main title of the page, displayed in the browser tab and search engine results; if not set, defaults to the file name without extension.
+- **`sidebar_label`** (optional): Custom label shown in the sidebar; if not set, defaults to `title`.
+- **`description`** (optional): A brief description of the page, used for SEO.
+- **`keywords`** (optional): Keywords for the page, aiding search engine optimization.
+- **`image`** (optional): Preview image URL for social sharing.
+- **`id`** (optional): Unique identifier for the document, often used for versioning.
+- **`hide_title`** (optional): Boolean; set to `true` to hide the page title at the top.
+- **`sidebar_position`** (optional): Integer; lower numbers place the document higher in the sidebar.
+
+### 2.2 Import External Components (Optional)
+
+After the Front Matter and before the body content, you can use `import` statements to bring in custom components or third-party libraries, just like in React files.
+
+```mdx
+import Picture from '@site/src/components/Picture';
+import LinkBox from '@site/src/components/LinkBox';
+```
+
+### 2.3 Body Content
+
+The body is the main part of the document, composed of standard Markdown syntax and embedded JSX/React components.
+
+#### Headings
+
+Use `#` symbols to create headings.
+
+- **Heading 1 (`#`)**: Usually the main title of the page. **It is recommended to match the Front Matter `title`** for better SEO.
+- **Heading 2 (`##`)**: Used for major sections.
+- **Heading 3 (`###`)**: Used for subsections under a heading 2.
+- **Heading 4 (`####`) and below**: For finer granularity.
+
+> **Note**: By default, the table of contents (TOC) on the right side automatically extracts `##` and `###` headings.
+
+#### Paragraphs and Line Breaks
+
+- **Paragraphs**: Write text directly, separate paragraphs with **blank lines**.
+- **Line breaks**: Add two spaces at the end of a line or use a backslash `\` to force a line break.
+
+#### Lists
+
+- **Unordered lists**: Use `-`, `*`, or `+`.
+- **Ordered lists**: Use numbers followed by a `.`.
+
+#### Links and Images
+
+- **Links**: `[Link text](URL)`.
+- **Images**: `![Alt text](Image URL)`.
+
+#### Code Blocks
+
+Use triple backticks **` ``` `** and specify the language to create syntax-highlighted code blocks.
+
+````markdown
+```javascript
+console.log('Hello, AIhub!');
+```
+````
+
+#### Embedding React Components
+
+This is the most powerful feature of MDX. You can use previously imported components in your Markdown like HTML tags.
+
+```
+<Picture url="/img/logo.png" height="100" />
+<LinkBox url="https://aihub.skrepy.dpdns.org/" title="AIhub" />
+```
+
+The result:
+
+<Picture url="/img/logo.png" height="100" />
+<LinkBox url="https://aihub.skrepy.dpdns.org/" title="AIhub" />
+
+---
+
+## 🗂️ 3. Project Structure
+
+The project root directory structure is as follows (only core parts shown):
+
+```
+aihub-docs/
+├── docs/                  # Documentation source files (.mdx / .md)
+├── src/
+│   ├── components/        # Custom React components (globally reusable)
+│   │   ├── Picture.tsx
+│   │   ├── LinkBox.tsx
+│   │   └── ...
+│   ├── ...
+├── static/                # Static assets (images, favicon, etc.)
+│   ├── img/
+│   │   └── logo.png
+│   └── ...
+├── ...
+```
+
+### Main Directory Descriptions
+
+- **`docs/`**: Contains all documentation source files. Supports subdirectories; the final website URL path corresponds to the directory structure.
+- **`src/components/`**: Holds custom React components that can be reused in any MDX file (see below).
+- **`static/`**: Stores static files (images, fonts, PDFs, etc.). These are copied as-is to the build output and can be accessed via **absolute paths** (starting with `/`), e.g., `/img/logo.png`.
+
+---
+
+## 🔧 4. Custom Component Usage Guide
+
+To enrich documentation and enhance interactivity, the project includes some built‑in utility components under `src/components/`. You can import them in any `.mdx` file using the `@site` alias.
+
+### 4.1 Importing Components
+
+`@site` is an alias provided by Docusaurus that points to the project root. For example:
+
+```
+import Picture from '@site/src/components/Picture';
+import LinkBox from '@site/src/components/LinkBox';
+```
+
+> Usually placed at the top of the MDX file.
+
+**Note**: After all imports, there must be a blank line.
+
+Example:
+
+```
+import Picture from '@site/src/components/Picture';
+import LinkBox from '@site/src/components/LinkBox';
+
+<Picture url="/img/logo.png" height="350" />
+```
+
+### 4.2 Using the `Picture` Component (Optimized Image Display)
+
+`Picture` is a React component for elegantly inserting images into MDX documents, with support for custom height, alignment, and captions.
+
+---
+
+#### Import
+
+Import the component at the top of your MDX file:
+
+```
+import Picture from '@site/src/components/Picture';
+```
+
+---
+
+#### Parameters
+
+| Prop     | Type                            | Required | Description                                                                                                           |
+| -------- | ------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------- |
+| `url`    | `string`                        | ✅       | Image path, supports absolute paths (starting with `/`) or relative paths.                                            |
+| `height` | `number`                        | ❌       | Image height in pixels. If specified, width adapts automatically, max width 100%; if not, width is 100%, height auto. |
+| `info`   | `string`                        | ❌       | Caption text below the image.                                                                                         |
+| `pos`    | `'left' \| 'center' \| 'right'` | ❌       | Image alignment, default `'center'`.                                                                                  |
+
+---
+
+#### Usage Examples
+
+##### Basic (centered, fixed height)
+
+```
+<Picture url="/img/logo.png" height="50" />
+```
+
+Result: centered, height 50px, width auto.
+
+<Picture url="/img/logo.png" height="50" />
+
+##### Left-aligned with caption
+
+```
+<Picture url="/img/logo.png" height="50" info="Caption" pos="left" />
+```
+
+Result:
+
+<Picture url="/img/logo.png" height="50" info="Caption" pos="left" />
+
+##### Width‑adaptive (no fixed height)
+
+```
+<Picture url="/img/logo.png" />
+```
+
+Image fills container width, height scales proportionally.
+
+<Picture url="/img/logo.png" />
+
+---
+
+##### Right-aligned with caption
+
+```
+<Picture url="/img/logo.png" pos="right" info="LOGO" />
+```
+
+<Picture url="/img/logo.png" pos="right" info="LOGO" />
+
+#### 📁 Best Practices for Image Paths
+
+- **Absolute paths (strongly recommended)**: Start with `/`, corresponding to the `static/` folder at the project root.  
+  Example: `/img/hero.png` → `static/img/hero.png`  
+  ✅ Advantage: Can be correctly referenced from MDX files at any level, without concern for relative location.
+
+- **Relative paths (use with caution)**: Relative to the current MDX file's directory.  
+  Example: `../img/logo.png` → if the current file is under `docs/guide/`, it points to `docs/img/logo.png`.  
+  ❌ Disadvantage: Easily broken when files are moved or when directory nesting changes; not recommended.
+
+> 💡 Suggestion: Store all images in `static/img/` and use absolute paths to reference them.
+
+---
+
+#### ⚠️ Notes
+
+1. If both `height` and `info` are specified, the caption appears directly below the image.
+2. `pos` only controls alignment within the image container; the caption is always centered.
+3. If `info` is empty, the caption container is not displayed.
+
+---
+
+### 4.3 Using the `LinkBox` Component (External Link Card)
+
+`LinkBox` generates a stylish external link card with a title, subtitle, icon, and hint text.
+
+**Example:**
+
+```
+<LinkBox url="https://aihub.skrepy.dpdns.org/" title="AIhub" />
+```
+
+**Full parameters:**
+
+| Parameter  | Type   | Required | Description                                                                            |
+| ---------- | ------ | -------- | -------------------------------------------------------------------------------------- |
+| `url`      | string | ✅       | Link URL                                                                               |
+| `title`    | string | ✅       | Card title                                                                             |
+| `subtitle` | string | ❌       | Subtitle (optional)                                                                    |
+| `icon`     | string | ❌       | Custom icon URL (if not provided, automatically fetches favicon from `url`)            |
+| `tip`      | string | ❌       | Custom tip text (default: "Go to the following site, but security is not guaranteed~") |
+
+---
+
+## 📁 5. Static Assets: Storage and Referencing Best Practices
+
+- **Storage location**: All static assets (images, fonts, files, etc.) should be placed in the **`static/`** directory.
+- **Referencing**:
+  - **Absolute paths (recommended)**: Start with `/`, pointing to the `static/` root. For example, an image at `static/img/logo.png` is written as `/img/logo.png` in MDX.
+  - **Relative paths**: Relative to the current MDX file's location. For example, if the file is under `docs/`, referencing `static/img/logo.png` could be written as `../static/img/logo.png` (but easily prone to errors with deeper nesting; not recommended).
+
+**Example (absolute path):**
+
+```mdx
+<Picture url="/img/logo.png" height="350" />
+```
+
+This way, the path always works regardless of where the MDX file resides.
+
+---
+
+## ✅ 6. Self-Checklist
+
+Before submitting a document, please confirm:
+
+- [ ] If using custom image components, check that they display correctly.
+- [ ] Tables, lists, and other formatting are correct.
+- [ ] Page metadata (Front Matter) (if needed) is filled in (e.g., `title`, `sidebar_position`, etc.).
+- [ ] Local preview passes (`pnpm start`) with no errors.
+- [ ] Before committing, run `pnpm format` at the project root to format the document.
+
+---
+
+## 🚀 Quick Preview
+
+Start the local development server to see the results:
+
+```bash
+pnpm start
+```
+
+Open `http://localhost:3000` in your browser for live preview.
+
+Build for production:
+
+```bash
+pnpm build
+```
+
+---
+
+## 📚 Reference Resources
+
+- [Docusaurus Official Documentation](https://docusaurus.io/docs)
+- [MDX Documentation](https://mdxjs.com/)
+- [Project Source Repository](https://github.com/Skrepy0/aihub-docs)

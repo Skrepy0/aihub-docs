@@ -1,31 +1,31 @@
 ---
-title: AIhub Guide
+title: AIhub User Guide
 sidebar_position: 1
 ---
 
-# AIhub Guide
+# AIhub User Guide
 
-AIhub is an AI service routing platform based on [new-api](https://docs.newapi.pro). With AIhub, you can call multiple AI models through a unified API key and OpenAI-compatible interface.
+AIhub is an AI service relay platform based on [new-api](https://docs.newapi.pro). Through AIhub, you can call multiple AI models using a unified API Key and an OpenAI‑compatible interface.
 
-If you are using the docs for the first time, we recommend reading in the following order:
+For first‑time users, we recommend reading this document in the following order:
 
-1. Learn the core features and positioning of AIhub
-2. Create and obtain an API key
-3. Configure the key and Base URL in your client or code
-4. Test with a sample request
-5. Check the FAQ when you run into problems
+1. Understand the basic functions and positioning of AIhub
+2. Create and obtain an API Key
+3. Configure the Key and Base URL in your client or code
+4. Test with example requests
+5. Refer to the FAQ section if you encounter issues
 
 ---
 
-## Overview
+## AIhub Overview
 
 AIhub provides the following core capabilities:
 
-- A unified entry point for AI APIs that aggregates multiple model services
-- One API key that can be reused across tools, apps, and scripts
-- Full compatibility with the OpenAI API style to reduce integration cost
+- A unified AI interface entry point that aggregates multiple model services
+- A single API Key reusable across multiple tools, applications, and scripts
+- Full compatibility with the OpenAI API style, reducing integration costs
 
-If you have used an OpenAI-compatible API before, you only need to replace three configuration values:
+If you have used an OpenAI‑compatible interface before, connecting to AIhub only requires replacing three configuration items:
 
 - `API Key`
 - `Base URL`
@@ -37,66 +37,66 @@ If you have used an OpenAI-compatible API before, you only need to replace three
 
 ### Log in to AIhub
 
-Visit [AIhub](https://aihub.skrepy.dpdns.org/) and complete registration and sign-in.
+Visit [AIhub](https://aihub.skrepy.dpdns.org/) and complete registration and login.
 
 ### Create an API Key
 
-Go to the [API Key management page](https://aihub.skrepy.dpdns.org/keys) and create a new key. Fill in the following fields:
+Go to the [API Key Management page](https://aihub.skrepy.dpdns.org/keys) and click to create a new key. Fill in the following information:
 
-- Name: any label that helps you identify the application
-- Group: the model group this key can access
-- Expiration (optional): set a validity period, or leave it blank for no expiry
+- Name: a custom identifier to distinguish different applications
+- Group: select the model group that this Key can call
+- Expiration time (optional): can set a validity period; leave blank for permanent validity
 
-> Each API key can only call models in its assigned group. Please confirm the group selection before creating the key.
+> Each API Key can only call models within its assigned group. Please confirm the group selection is correct when creating.
 
-### Record the Base URL
+### Note the Endpoint Address
 
-Use the following AIhub server address as your Base URL:
+The AIhub server address (Base URL) is as follows, and must be used consistently in subsequent configurations:
 
 ```text
 https://aihub.skrepy.dpdns.org
 ```
 
-### Choose a model
+### Choose a Model
 
-When your client or code asks for a model name, make sure the model is allowed for the current key group.
+When specifying a model name in your client or code, ensure that the selected model is within the permission scope of the Key's group.
 
-You can browse available models in the [model marketplace](https://aihub.skrepy.dpdns.org/pricing).
+You can filter by group in the [Model Marketplace](https://aihub.skrepy.dpdns.org/pricing) to view the list of available models.
 
 ---
 
 ## API Key Configuration
 
-An API key is the credential used to authenticate requests to AIhub. Every request must include the following three values:
+The API Key is the identity credential for calling AIhub services. Each request must provide the following three items:
 
-- `API Key`: the authentication credential
-- `Base URL`: the server address
-- `model`: the target model name
+- `API Key`: authentication credential
+- `Base URL`: server address
+- `model`: target model name
 
-### In third-party clients
+### Configuring in Third‑Party Clients
 
-Clients that support the OpenAI-compatible protocol usually expose these fields:
+Clients that support the OpenAI‑compatible protocol usually provide the following configuration fields:
 
-- **API Key**: paste the AIhub key here
-- **Base URL**: use `https://aihub.skrepy.dpdns.org`
-- **Model**: choose a valid model name
+- **API Key**: enter the Key created in AIhub
+- **Base URL**: enter `https://aihub.skrepy.dpdns.org`
+- **Model**: enter the available model name
 
-### In code
+### Configuring in Code
 
-We recommend using environment variables instead of hard-coding the key:
+It is recommended to inject the Key via environment variables to avoid hard‑coding it in source code:
 
 ```bash
 AIHUB_API_KEY=sk-xxxxxx
 AIHUB_BASE_URL=https://aihub.skrepy.dpdns.org
 ```
 
-Your program can then read the values from the environment.
+The program reads the above configuration from environment variables at runtime.
 
 ---
 
 ## Request Examples
 
-The following examples use the OpenAI-compatible API format. Replace `Base URL`, `API Key`, and `model` with your real values.
+The following examples use the OpenAI‑compatible interface format. Replace the `Base URL`, `API Key`, and `model` with actual values.
 
 ### curl
 
@@ -142,7 +142,7 @@ import requests
 
 url = "https://aihub.skrepy.dpdns.org/v1/chat/completions"
 headers = {
-    "Authorization": f"Bearer ${os.getenv('AIHUB_API_KEY')}",
+    "Authorization": f"Bearer {os.getenv('AIHUB_API_KEY')}",
     "Content-Type": "application/json",
 }
 body = {
@@ -160,92 +160,92 @@ print(response.json())
 
 ## Client Configuration Notes
 
-When using an OpenAI-compatible client, you typically only need to fill in three fields:
+When using an OpenAI‑compatible client, you typically only need to fill in three fields:
 
-- `API Key`: AIhub key
+- `API Key`: the Key created in AIhub
 - `Base URL`: `https://aihub.skrepy.dpdns.org`
-- `Model`: a valid model name
+- `Model`: the available model name
 
-### Common field name mapping
+### Common Field Name Mapping
 
-Different clients may use different labels. Common variants include:
+Different clients may use different names for these configuration items. Common variations include:
 
-| Meaning  | Common field names                          |
-| -------- | ------------------------------------------- |
-| API Key  | API Key / Key / Token / API Token           |
-| Base URL | Base URL / API Base / Endpoint / Server URL |
-| Model    | Model / Model Name                          |
+| Actual meaning | Common field names                          |
+| -------------- | ------------------------------------------- |
+| API Key        | API Key / Key / Token / API Token           |
+| Base URL       | Base URL / API Base / Endpoint / Server URL |
+| Model          | Model / Model Name                          |
 
-### Verify the configuration
+### Verifying Configuration
 
-After setting everything up, send a simple test message such as:
+After configuration, send a simple test message, for example:
 
 > Hello
 
-If the response comes back normally, the configuration is working.
+If you receive a normal response, the configuration is successful.
 
 ---
 
-## FAQ
+## Frequently Asked Questions
 
 ### 401 Unauthorized
 
-**Possible reasons**:
+**Cause**:
 
-- The API key is incorrect or expired
-- The request header is missing `Authorization: Bearer <key>`
+- API Key is incorrect or has expired
+- Request header missing `Authorization: Bearer <key>`
 
-**Fix**: copy the key again and confirm the header format.
+**Solution**: Recopy the Key and confirm the request header format is correct.
 
 ### 403 Forbidden
 
-**Possible reasons**:
+**Cause**:
 
-- The current key cannot access the requested model
-- The account does not have sufficient permissions
+- Current Key does not have permission to access the specified model
+- Account permissions are insufficient
 
-**Fix**: check whether the model is inside the key group, or switch to an available model.
+**Solution**: Check whether the model name is within the group permissions, or switch to an available model.
 
 ### 429 Too Many Requests
 
-**Possible reasons**: you are sending requests too frequently.
+**Cause**: Request frequency exceeds the limit.
 
-**Fix**: reduce request frequency, increase retry intervals, and check for accidental loops.
+**Solution**: Reduce request frequency, increase retry intervals, and check for abnormal loop calls.
 
-### Model not found or unavailable
+### Model does not exist or is unavailable
 
-**Possible reasons**:
+**Cause**:
 
-- The `model` name is misspelled
-- The model has been taken offline
-- The current key does not have access to the model
+- Misspelling in the `model` parameter
+- Model has been deprecated
+- Current Key does not have permission for that model
 
-**Fix**: confirm the available model list in the marketplace and use the correct name.
+**Solution**: Confirm the list of available models in the Model Marketplace and use the correct name.
 
-### Client connection failed
+### Client connection failure
 
-**Possible reasons**:
+**Cause**:
 
-- The Base URL is incorrect
-- The network cannot reach AIhub
-- The client does not support the OpenAI-compatible protocol
+- Base URL is incorrect
+- Network cannot reach AIhub service
+- Client does not support OpenAI‑compatible protocol
 
-**Fix**: confirm the Base URL is `https://aihub.skrepy.dpdns.org`, test connectivity with curl, and check the client docs.
+**Solution**: Confirm the Base URL is `https://aihub.skrepy.dpdns.org`, use curl to verify service availability, and check client documentation.
 
 ---
 
-## Security Tips
+## Security Recommendations
 
-API keys are sensitive credentials. Follow these rules:
+API Keys are sensitive credentials. Please adhere to the following rules:
 
 - Do not commit them to public or private Git repositories
-- Do not share them through screenshots or recordings
-- Do not hard-code them in frontend code or easily reversible client files
-- Reset the key immediately if you suspect a leak
+- Do not publicly share them via screenshots, screen recordings, etc.
+- Do not hard‑code them in frontend code or client‑side decompilable files
+- Reset the Key immediately if you suspect it has been leaked
 
 ---
 
-## Links
+## Reference Links
 
-- [AIhub Writing Guide](./documentation-writing-guide)
-- [new-api official docs](https://docs.newapi.pro/zh/docs)
+- [AIhub Documentation Writing Guide](./documentation-writing-guide)
+- [new-api Official Documentation](https://docs.newapi.pro/en/docs)

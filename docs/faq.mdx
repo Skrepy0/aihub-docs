@@ -1,66 +1,170 @@
 ---
-title: FAQ
+title: Frequently Asked Questions
 sidebar_position: 5
 ---
 
-# FAQ
+# Frequently Asked Questions
 
-## 401 Unauthorized
+This document summarizes common anomalies, cause analysis, and solutions encountered during the use of AIhub.
 
-**Possible reasons**:
+AIhub server endpoint:
 
-- The API key is incorrect or expired
-- The request header is missing `Authorization: Bearer <key>`
-
-**Fix**: copy the key again and confirm the header format.
-
-## 403 Forbidden
-
-**Possible reasons**:
-
-- The current key cannot access the requested model
-- The account does not have sufficient permissions
-
-**Fix**: check whether the model is inside the key group, or switch to an available model.
-
-## 429 Too Many Requests
-
-**Possible reasons**: you are sending requests too frequently.
-
-**Fix**: reduce request frequency, increase retry intervals, and check for accidental loops.
-
-## Model not found or unavailable
-
-**Possible reasons**:
-
-- The `model` name is misspelled
-- The model has been taken offline
-- The current key does not have access to the model
-
-**Fix**: confirm the available model list in the marketplace and use the correct name.
-
-## Client connection failed
-
-**Possible reasons**:
-
-- The Base URL is incorrect
-- The network cannot reach AIhub
-- The client does not support the OpenAI-compatible protocol
-
-**Fix**: confirm the Base URL is `https://aihub.skrepy.dpdns.org`, test connectivity with curl, and check the client docs.
-
-## Can I use the same key across multiple apps?
-
-Yes, but it is better to create separate keys for separate apps so you can revoke them individually.
-
-## Which Base URL should I use?
-
-Use `https://aihub.skrepy.dpdns.org` for general API calls. Some clients require the `/v1` suffix.
+```text
+https://aihub.skrepy.dpdns.org/
+```
 
 ---
 
-## Security tips
+## 401 Unauthorized
 
-- Never share keys in public places
-- Reset a key immediately if you suspect a leak
-- Keep keys out of frontend bundles and client-side source code
+**Symptom**: Request is rejected, returning HTTP 401 status code indicating authentication failure.
+
+**Common causes**:
+
+- Incorrect API Key string
+- API Key has expired or been reset
+- Request header missing `Authorization: Bearer <key>` or malformed
+- Extra spaces or newline characters included when copying
+
+**Solutions**:
+
+1. Recopy the Key from the console
+2. Confirm the request header format is `Authorization: Bearer sk-xxxxxx`
+3. Confirm the Base URL is correct
+4. If the Key has been leaked, reset it immediately and update all calling points
+
+---
+
+## 403 Forbidden
+
+**Symptom**: Request is authenticated but the server refuses to execute it.
+
+**Common causes**:
+
+- Current Key does not have permission to call the requested model
+- Account permissions are insufficient to access the target endpoint
+- Requested resource is restricted
+
+**Solutions**:
+
+1. Verify that the model name is correct
+2. Check the console for the model permission scope of the current Key
+3. Switch to an available model and retry the call
+
+---
+
+## 429 Too Many Requests
+
+**Symptom**: Request volume exceeds the limit within a short period, and the server throttles the requests.
+
+**Common causes**:
+
+- High‑frequency loop calls in business code
+- Retry strategy intervals are too short
+- Multiple services sharing the same Key causing total volume to exceed limits
+
+**Solutions**:
+
+- Reduce request frequency and increase call intervals
+- Implement exponential backoff retry mechanism
+- Check code logic to eliminate infinite loops or abnormal replays
+- Isolate Keys per application to distribute call volume
+
+---
+
+## Model does not exist or is unavailable
+
+**Symptom**: Request is sent successfully, but the server returns an error indicating the model is not found or cannot be used.
+
+**Common causes**:
+
+- Misspelling in the `model` parameter
+- Model has been deprecated or is currently unavailable
+- Current Key does not have access permissions for that model
+
+**Solutions**:
+
+1. Check the console for the list of currently available models
+2. Confirm that the `model` parameter value exactly matches the list
+3. Switch to another available model and retry
+
+---
+
+## Client connection failure
+
+**Symptom**: Client reports inability to connect, request timeout, or configuration save failure.
+
+**Common causes**:
+
+- Incorrect Base URL (e.g., missing `https://` or trailing `/v1`)
+- Client does not support custom OpenAI‑compatible endpoints
+- Local network cannot reach `https://aihub.skrepy.dpdns.org/`
+- Configuration not saved, or client not restarted after saving
+
+**Solutions**:
+
+1. Confirm the Base URL is `https://aihub.skrepy.dpdns.org/`
+2. Use curl to verify server availability
+3. Check whether network environment is restricted by firewalls or proxies
+4. Refer to client documentation to confirm support for custom API Base
+
+---
+
+## Copied Key does not work
+
+**Symptom**: After copying the Key from the console and configuring it in the client, authentication still fails.
+
+**Common causes**:
+
+- Incomplete copy, missing characters
+- Extra leading/trailing spaces or newlines included when copying
+- Mistakenly copying the Key name or Key ID instead of the Key value
+- The Key being used has been reset and the stored value is old
+
+**Solutions**:
+
+- Recopy the complete Key string
+- After pasting, check for invisible characters at the beginning or end
+- Confirm the pasted value is in the API Key field, not another configuration item
+- If uncertain, create a new Key and replace it
+
+---
+
+## Design principle: one Key per application
+
+Creating an independent API Key for each application has the following advantages:
+
+- Call logs are isolated by Key, making it easier to trace the source of anomalies
+- If a single Key is compromised, only the corresponding application is affected, keeping risk manageable
+- Each Key can be reset independently without requiring global updates
+
+---
+
+## Emergency handling after API Key leak
+
+When a Key is confirmed or highly suspected to be leaked, perform the following steps:
+
+1. **Reset** the Key immediately to render it invalid
+2. **Update** all application configurations that use the Key, replacing it with the new Key
+3. **Check** code repositories, log files, and chat logs for any plaintext record of the Key
+4. **Delete** all public screenshots or shared content containing the Key
+
+---
+
+## General troubleshooting flow
+
+For any integration anomaly, check the following in order:
+
+1. Is the API Key correct?
+2. Is the Base URL `https://aihub.skrepy.dpdns.org/`?
+3. Does the request header include the `Bearer` prefix?
+4. Is the model name in the current available list?
+5. Does the client support the OpenAI‑compatible protocol?
+
+---
+
+## Next Steps
+
+- [Quick Start](./quickstart)
+- [API Key Management](./api-key)
+- [Client Integration](./clients)

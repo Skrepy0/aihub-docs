@@ -5,72 +5,183 @@ sidebar_position: 3
 
 # API Key Management
 
-This page explains how to create, use, and protect AIhub API keys.
+An API Key is the credential used by AIhub to identify the requesting party. After correctly configuring the API Key in your client or code, you can initiate service calls through AIhub.
+
+This document covers:
+
+- Definition and purpose of API Keys
+- Creation entry point and initial operations
+- Viewing, copying, and using API Keys
+- Resetting and disabling procedures
+- Security policies and common exception handling
 
 ---
 
-## What an API key is
+## Definition and Purpose of API Keys
 
-An API key is the credential used to identify and authorize requests to AIhub. Each key is tied to a model group and can only access the models in that group.
+An API Key is a fixed-length string that carries identity information in each API request. The AIhub server uses this Key to determine:
 
----
+- Whether the request has access permissions
+- Whether specific models are allowed to be invoked
+- Whether rate limits, quota constraints, or other policy conditions are triggered
 
-## Create a key
-
-1. Log in to the AIhub console
-2. Open the API Key management page
-3. Click create key
-4. Fill in the key name and group
-5. Optionally set an expiration time
-6. Save the key and copy it immediately
+The API Key is equivalent to an access token for your account; its security directly affects the controllability of resource usage.
 
 ---
 
-## Key fields
+## Creating an API Key
 
-- **Name**: a human-readable label for the key
-- **Group**: the model group the key can access
-- **Expiration**: optional validity period
+[Click here to go to the API Key page](https://aihub.skrepy.dpdns.org/keys)
 
----
+Log in to the AIhub Console, go to the "API Keys" page, and click the "Create API Key" button in the upper right corner. After the system generates the key, the page provides the following action options:
 
-## Usage notes
+- Copy the Key string
+- Edit key information
+- Disable the Key (temporary freeze)
 
-- Use one key per application or environment when possible
-- Store keys in environment variables or secret managers
-- Avoid putting keys directly into source code or shared config files
+### Post-Creation Precautions
 
----
+After the key is generated, do not paste the key directly into chat tools, forums, or share it via screenshots.
 
-## Rotate or revoke a key
+### Key Isolation Strategy for Multi-Application Scenarios
 
-Reset or revoke a key immediately if:
+If you have multiple independent applications or services, **it is recommended to create a separate API Key for each application**. The benefits of isolation:
 
-- It is accidentally exposed
-- It has been committed to a repository
-- It is no longer needed
-- You suspect unauthorized access
+- If a single key is compromised, only that key needs to be reset, without affecting other services
+- Facilitates call volume statistics and anomaly source identification per application
+- Reduces the risk of global unavailability due to misconfiguration
 
 ---
 
-## Troubleshooting
+## How to Use an API Key
 
-### Key cannot be used
+### Carrying in HTTP Request Headers
 
-Check whether:
+All AIhub API calls must include the Key in the HTTP request header:
 
-- The key is active
-- The key has access to the requested model
-- The request header uses `Authorization: Bearer <key>`
+```http
+Authorization: Bearer YOUR_API_KEY
+```
 
-### Key expired
+Critical constraints:
 
-Create a new key and update the client configuration.
+- The `Bearer` prefix is mandatory
+- `YOUR_API_KEY` must be replaced with the actual full Key string you created
+- Headers are case-sensitive; please follow the standard format
+
+### Configuration in OpenAI-Compatible Clients
+
+For third-party clients compatible with the OpenAI SDK, you typically need to fill in three fields:
+
+- **API Key**: Enter the AIhub-generated Key
+- **Base URL**: `https://aihub.skrepy.dpdns.org/` (note the trailing slash)
+- **Model**: Enter the currently available model name (obtained from the console)
+
+### Referencing in Code (Using Environment Variables)
+
+It is recommended to inject the Key via environment variables to avoid hard‑coding. Example:
+
+```bash
+AIHUB_API_KEY=sk-xxxxxx
+```
+
+Code reading (Node.js):
+
+```javascript
+const key = process.env.AIHUB_API_KEY;
+```
+
+Advantages of using environment variables:
+
+- Prevents the Key from leaking into version control systems
+- Facilitates quick switching between different environments (development, testing, production)
+- Follows the twelve‑factor app configuration principles
 
 ---
 
-## Related pages
+## Viewing and Copying the Key
 
-- [Quick Start](./quickstart)
-- [Client Integration](./clients)
-- [FAQ](./faq)
+On the API Key management page, locate the row for the desired Key and click the copy icon under the API Key column.
+
+If calls still fail after copying, please check the above three points first.
+
+---
+
+## Resetting the Key
+
+If there is a risk of Key compromise, you should reset it immediately. Resetting generates a new Key string, and the old Key becomes invalid immediately.
+
+### Scenarios Where Resetting Is Appropriate
+
+- The Key was accidentally committed to a public code repository
+- The Key appears in chat logs, emails, or public documents
+- The Key was captured in a screenshot and exposed
+- Deployment environment changes (e.g., server migration, container rebuild)
+- Security audits require periodic credential rotation
+
+### Mandatory Actions After Resetting
+
+After a reset, all clients or services using the old Key must be updated to the new Key; otherwise, they will receive authentication failure responses. Locations that need updating include:
+
+- Local development environment variables
+- Server runtime environment configurations
+- Secret variables in CI/CD scripts
+- Third‑party client configuration interfaces
+- Automated scheduled tasks or webhook configurations
+
+---
+
+## Disabling the Key
+
+Disabling temporarily invalidates a Key without permanently deleting it. This is suitable for temporary scenarios such as:
+
+- An application is temporarily suspended and its calls need to be paused
+- Investigating abnormal high‑frequency calls or abuse from a specific Key
+- Observing before deciding whether to permanently delete the Key
+
+A disabled Key remains in the list and can be re‑enabled at any time.
+
+---
+
+## Security Guidelines
+
+API Keys are highly sensitive credentials and must adhere to the following mandatory rules:
+
+- **Do not** commit them to any public or private Git repositories (even private repositories may be scanned)
+- **Do not** display them via screenshots, screen recordings, or in insecure environments
+- **Do not** hard‑code them in frontend code or client‑side binaries that can be decompiled
+- **Do not** share the same Key with unauthorized personnel or teams
+
+If you suspect a Key has been compromised, **do not** continue to observe or delay action; immediately reset it and notify relevant parties.
+
+---
+
+## Common Troubleshooting
+
+### Receiving 401 Unauthorized
+
+Possible causes and investigation order:
+
+1. The Key string itself is incorrect (typos, truncation, extra spaces)
+2. The request header does not include the `Bearer` prefix or has a format error (e.g., using `Basic`)
+3. The Key has expired or been reset, and the current value is old
+4. The Key is disabled
+5. The Key description text was accidentally copied along with the Key
+
+### Using the Same Key for Multiple Applications
+
+Technically possible but not recommended. Sharing a Key loses audit granularity and increases the impact if compromised. Follow the "Key Isolation Strategy for Multi-Application Scenarios" to isolate.
+
+### Feasibility of Changing the Key
+
+Changing is supported at any time. After changing, simply update the new Key in all calling points; the old Key becomes invalid immediately after a reset. It is advisable to keep the old Key for a few hours during transition, but the old Key should be reset after the switch is complete (or reset immediately if immediate invalidation is required).
+
+---
+
+## Next Steps
+
+After successfully obtaining and configuring your API Key, you may continue with the following documents:
+
+- [Quick Start](./quickstart) — first call example
+- [Client Integration](./clients) — language/framework integration guides
+- [FAQ](./faq) — other frequently asked questions
