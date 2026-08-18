@@ -14,6 +14,7 @@ const config: Config = {
   title: 'AIhub Docs',
   tagline: '',
   favicon: 'img/favicon.ico',
+  clientModules: [require.resolve('./static/js/redirect.js')],
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
