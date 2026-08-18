@@ -1,23 +1,23 @@
 {
-  "link.title.Docs / 文档": {
-    "message": "Docs / 文档",
-    "description": "The title of the footer links column with title=Docs / 文档 in the footer"
+  "link.title.Docs": {
+    "message": "文档",
+    "description": "The title of the footer links column with title=Docs in the footer"
   },
-  "link.title.Community / 社区": {
-    "message": "Community / 社区",
-    "description": "The title of the footer links column with title=Community / 社区 in the footer"
+  "link.title.Community": {
+    "message": "社区",
+    "description": "The title of the footer links column with title=Community in the footer"
   },
-  "link.title.More / 更多": {
-    "message": "More / 更多",
-    "description": "The title of the footer links column with title=More / 更多 in the footer"
+  "link.title.More": {
+    "message": "更多",
+    "description": "The title of the footer links column with title=More in the footer"
   },
-  "link.item.label.Quick Start / 快速开始": {
-    "message": "Quick Start / 快速开始",
-    "description": "The label of footer link with label=Quick Start / 快速开始 linking to /docs/quickstart/"
+  "link.item.label.Quick Start": {
+    "message": "快速开始",
+    "description": "The label of footer link with label=Quick Start linking to /docs/quickstart"
   },
-  "link.item.label.Writing Guide / 文档编写指南": {
-    "message": "Writing Guide / 文档编写指南",
-    "description": "The label of footer link with label=Writing Guide / 文档编写指南 linking to /docs/文档编写指南/"
+  "link.item.label.Writing Guide": {
+    "message": "文档编写指南",
+    "description": "The label of footer link with label=Writing Guide linking to /docs/documentation-writing-guide"
   },
   "link.item.label.GitHub Issues": {
     "message": "GitHub Issues",

@@ -93,12 +93,12 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'docsSidebar',
           position: 'left',
-          label: 'Docs / 文档',
+          label: 'Docs',
         },
         {
           to: '/docs/intro',
           position: 'right',
-          label: 'Getting Started / 使用指南',
+          label: 'Getting Started',
         },
         {
           type: 'localeDropdown',
@@ -120,20 +120,20 @@ const config: Config = {
     footer: {
       links: [
         {
-          title: 'Docs / 文档',
+          title: 'Docs',
           items: [
             {
-              label: 'Quick Start / 快速开始',
+              label: 'Quick Start',
               to: '/docs/quickstart',
             },
             {
-              label: 'Writing Guide / 文档编写指南',
-              to: '/docs/文档编写指南',
+              label: 'Writing Guide',
+              to: '/docs/documentation-writing-guide',
             },
           ],
         },
         {
-          title: 'Community / 社区',
+          title: 'Community',
           items: [
             {
               label: 'GitHub Issues',
@@ -142,7 +142,7 @@ const config: Config = {
           ],
         },
         {
-          title: 'More / 更多',
+          title: 'More',
           items: [],
         },
       ],

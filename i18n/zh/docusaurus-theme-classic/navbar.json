@@ -8,11 +8,23 @@
     "description": "The alt text of navbar logo"
   },
   "item.label.Docs / 文档": {
-    "message": "Docs / 文档",
+    "message": "文档",
     "description": "Navbar item with label Docs / 文档"
   },
   "item.label.Getting Started / 快速开始": {
-    "message": "Getting Started / 快速开始",
+    "message": "快速开始",
     "description": "Navbar item with label Getting Started / 快速开始"
+  },
+  "item.label.Docs": {
+    "message": "文档",
+    "description": "Navbar item with label Docs"
+  },
+  "item.label.Getting Started / 使用指南": {
+    "message": "使用指南",
+    "description": "Navbar item with label Getting Started / 使用指南"
+  },
+  "item.label.Getting Started": {
+    "message": "使用指南",
+    "description": "Navbar item with label Getting Started"
   }
 }
