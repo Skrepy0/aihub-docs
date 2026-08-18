@@ -1,31 +1,31 @@
 ---
-title: AIhub 使用指南
+title: AIhub User Guide
 sidebar_position: 1
 ---
 
-# AIhub 使用指南
+# AIhub User Guide
 
-AIhub 是基于 [new-api](https://docs.newapi.pro) 的 AI 服务中转平台。通过 AIhub，可以使用统一的 API Key 和 OpenAI 兼容接口调用多种 AI 模型。
+AIhub is an AI service relay platform based on [new-api](https://docs.newapi.pro). Through AIhub, you can call multiple AI models using a unified API Key and an OpenAI‑compatible interface.
 
-首次使用者，建议按以下顺序阅读本文档：
+For first‑time users, we recommend reading this document in the following order:
 
-1. 了解 AIhub 的基本功能与定位
-2. 创建并获取 API Key
-3. 在客户端或代码中配置 Key 和 Base URL
-4. 使用示例请求进行测试
-5. 遇到问题时查阅常见问题章节
+1. Understand the basic functions and positioning of AIhub
+2. Create and obtain an API Key
+3. Configure the Key and Base URL in your client or code
+4. Test with example requests
+5. Refer to the FAQ section if you encounter issues
 
 ---
 
-## AIhub 概述
+## AIhub Overview
 
-AIhub 提供以下核心能力：
+AIhub provides the following core capabilities:
 
-- 统一的 AI 接口入口，聚合多种模型服务
-- 单套 API Key 可复用至多个工具、应用和脚本
-- 完全兼容 OpenAI API 风格，降低接入成本
+- A unified AI interface entry point that aggregates multiple model services
+- A single API Key reusable across multiple tools, applications, and scripts
+- Full compatibility with the OpenAI API style, reducing integration costs
 
-若已使用过 OpenAI 兼容接口，接入 AIhub 仅需替换三个配置项：
+If you have used an OpenAI‑compatible interface before, connecting to AIhub only requires replacing three configuration items:
 
 - `API Key`
 - `Base URL`
@@ -33,70 +33,70 @@ AIhub 提供以下核心能力：
 
 ---
 
-## 快速开始
+## Quick Start
 
-### 登录 AIhub
+### Log in to AIhub
 
-访问 [AIhub](https://aihub.skrepy.dpdns.org/) 并完成注册登录。
+Visit [AIhub](https://aihub.skrepy.dpdns.org/) and complete registration and login.
 
-### 创建 API Key
+### Create an API Key
 
-进入 [API Key 管理页面](https://aihub.skrepy.dpdns.org/keys)，点击创建新密钥，填写以下信息：
+Go to the [API Key Management page](https://aihub.skrepy.dpdns.org/keys) and click to create a new key. Fill in the following information:
 
-- 名称：自定义标识，便于区分不同应用
-- 分组：选择该 Key 可调用的模型分组
-- 过期时间（可选）：可设置有效期，留空表示永久有效
+- Name: a custom identifier to distinguish different applications
+- Group: select the model group that this Key can call
+- Expiration time (optional): can set a validity period; leave blank for permanent validity
 
-> 每个 API Key 仅能调用所在分组内的模型。创建时请确认分组选择正确。
+> Each API Key can only call models within its assigned group. Please confirm the group selection is correct when creating.
 
-### 记录接口地址
+### Note the Endpoint Address
 
-AIhub 服务端地址（Base URL）如下，后续配置中需统一使用：
+The AIhub server address (Base URL) is as follows, and must be used consistently in subsequent configurations:
 
 ```text
 https://aihub.skrepy.dpdns.org
 ```
 
-### 选择模型
+### Choose a Model
 
-在客户端或代码中需要指定模型名称时，请确保所选模型在当前 Key 的分组权限范围内。
+When specifying a model name in your client or code, ensure that the selected model is within the permission scope of the Key's group.
 
-可在 [模型广场](https://aihub.skrepy.dpdns.org/pricing) 中按分组筛选，查看可用的模型列表。
+You can filter by group in the [Model Marketplace](https://aihub.skrepy.dpdns.org/pricing) to view the list of available models.
 
 ---
 
-## API Key 配置方式
+## API Key Configuration
 
-API Key 是调用 AIhub 服务的身份凭证。每次请求需同时提供以下三项：
+The API Key is the identity credential for calling AIhub services. Each request must provide the following three items:
 
-- `API Key`：认证凭证
-- `Base URL`：服务端地址
-- `model`：目标模型名称
+- `API Key`: authentication credential
+- `Base URL`: server address
+- `model`: target model name
 
-### 在第三方客户端中配置
+### Configuring in Third‑Party Clients
 
-支持 OpenAI 兼容协议的客户端通常提供以下配置字段：
+Clients that support the OpenAI‑compatible protocol usually provide the following configuration fields:
 
-- **API Key**：填入 AIhub 创建的 Key
-- **Base URL**：填入 `https://aihub.skrepy.dpdns.org`
-- **Model**：填入可用模型名称
+- **API Key**: enter the Key created in AIhub
+- **Base URL**: enter `https://aihub.skrepy.dpdns.org`
+- **Model**: enter the available model name
 
-### 在代码中配置
+### Configuring in Code
 
-推荐通过环境变量注入，避免将 Key 硬编码到源码中：
+It is recommended to inject the Key via environment variables to avoid hard‑coding it in source code:
 
 ```bash
 AIHUB_API_KEY=sk-xxxxxx
 AIHUB_BASE_URL=https://aihub.skrepy.dpdns.org
 ```
 
-程序运行时从环境变量读取上述配置。
+The program reads the above configuration from environment variables at runtime.
 
 ---
 
-## 请求示例
+## Request Examples
 
-以下示例均使用 OpenAI 兼容接口格式，需替换其中的 `Base URL`、`API Key` 和 `model` 为实际值。
+The following examples use the OpenAI‑compatible interface format. Replace the `Base URL`, `API Key`, and `model` with actual values.
 
 ### curl
 
@@ -109,7 +109,7 @@ curl https://aihub.skrepy.dpdns.org/v1/chat/completions \
     "messages": [
       {
         "role": "user",
-        "content": "你好，你是什么模型"
+        "content": "Hello, what model are you?"
       }
     ]
   }'
@@ -126,7 +126,7 @@ const response = await fetch('https://aihub.skrepy.dpdns.org/v1/chat/completions
   },
   body: JSON.stringify({
     model: 'gpt-4o-mini',
-    messages: [{ role: 'user', content: '你好，你是什么模型' }],
+    messages: [{ role: 'user', content: 'Hello, what model are you?' }],
   }),
 });
 
@@ -148,7 +148,7 @@ headers = {
 body = {
     "model": "gpt-4o-mini",
     "messages": [
-        {"role": "user", "content": "你好，你是什么模型"}
+        {"role": "user", "content": "Hello, what model are you?"}
     ],
 }
 
@@ -158,94 +158,94 @@ print(response.json())
 
 ---
 
-## 客户端配置说明
+## Client Configuration Notes
 
-使用 OpenAI 兼容客户端时，通常只需填写三个字段：
+When using an OpenAI‑compatible client, you typically only need to fill in three fields:
 
-- `API Key`：AIhub 创建的 Key
-- `Base URL`：`https://aihub.skrepy.dpdns.org`
-- `Model`：可用模型名称
+- `API Key`: the Key created in AIhub
+- `Base URL`: `https://aihub.skrepy.dpdns.org`
+- `Model`: the available model name
 
-### 常见字段名称对照
+### Common Field Name Mapping
 
-不同客户端对配置项的命名可能存在差异，常见变体如下：
+Different clients may use different names for these configuration items. Common variations include:
 
-| 实际含义 | 常见字段名                                  |
-| -------- | ------------------------------------------- |
-| API Key  | API Key / Key / Token / API Token           |
-| Base URL | Base URL / API Base / Endpoint / Server URL |
-| Model    | Model / Model Name                          |
+| Actual meaning | Common field names                          |
+| -------------- | ------------------------------------------- |
+| API Key        | API Key / Key / Token / API Token           |
+| Base URL       | Base URL / API Base / Endpoint / Server URL |
+| Model          | Model / Model Name                          |
 
-### 验证配置
+### Verifying Configuration
 
-配置完成后，发送一条简单消息进行测试，例如：
+After configuration, send a simple test message, for example:
 
-> 你好
+> Hello
 
-若能正常返回响应，则配置成功。
+If you receive a normal response, the configuration is successful.
 
 ---
 
-## 常见问题
+## Frequently Asked Questions
 
 ### 401 Unauthorized
 
-**原因**：
+**Cause**:
 
-- API Key 填写错误或已失效
-- 请求头未包含 `Authorization: Bearer <key>`
+- API Key is incorrect or has expired
+- Request header missing `Authorization: Bearer <key>`
 
-**处理**：重新复制 Key，确认请求头格式正确。
+**Solution**: Recopy the Key and confirm the request header format is correct.
 
 ### 403 Forbidden
 
-**原因**：
+**Cause**:
 
-- 当前 Key 无权访问指定模型
-- 账号权限不足
+- Current Key does not have permission to access the specified model
+- Account permissions are insufficient
 
-**处理**：检查模型名称是否在分组权限内，或更换可用模型。
+**Solution**: Check whether the model name is within the group permissions, or switch to an available model.
 
 ### 429 Too Many Requests
 
-**原因**：请求频率超过限制。
+**Cause**: Request frequency exceeds the limit.
 
-**处理**：降低请求频率，增加重试间隔，检查是否存在异常循环调用。
+**Solution**: Reduce request frequency, increase retry intervals, and check for abnormal loop calls.
 
-### 模型不存在或不可用
+### Model does not exist or is unavailable
 
-**原因**：
+**Cause**:
 
-- `model` 参数拼写错误
-- 模型已下线
-- 当前 Key 未开通该模型权限
+- Misspelling in the `model` parameter
+- Model has been deprecated
+- Current Key does not have permission for that model
 
-**处理**：在模型广场确认可用模型列表，更换正确名称。
+**Solution**: Confirm the list of available models in the Model Marketplace and use the correct name.
 
-### 客户端连接失败
+### Client connection failure
 
-**原因**：
+**Cause**:
 
-- Base URL 填写错误
-- 网络无法访问 AIhub 服务
-- 客户端不支持 OpenAI 兼容协议
+- Base URL is incorrect
+- Network cannot reach AIhub service
+- Client does not support OpenAI‑compatible protocol
 
-**处理**：确认 Base URL 为 `https://aihub.skrepy.dpdns.org`，使用 curl 验证服务可用性，检查客户端文档。
-
----
-
-## 安全建议
-
-API Key 属于敏感凭证，请遵守以下规则：
-
-- 禁止提交至公开或私有 Git 仓库
-- 禁止通过截图、录屏等方式公开传播
-- 禁止硬编码在前端代码或客户端可反编译的文件中
-- 怀疑泄露时立即重置 Key
+**Solution**: Confirm the Base URL is `https://aihub.skrepy.dpdns.org`, use curl to verify service availability, and check client documentation.
 
 ---
 
-## 参考链接
+## Security Recommendations
 
-- [AIhub 文档编写指南](./文档编写指南)
-- [new-api 官方文档](https://docs.newapi.pro/zh/docs)
+API Keys are sensitive credentials. Please adhere to the following rules:
+
+- Do not commit them to public or private Git repositories
+- Do not publicly share them via screenshots, screen recordings, etc.
+- Do not hard‑code them in frontend code or client‑side decompilable files
+- Reset the Key immediately if you suspect it has been leaked
+
+---
+
+## Reference Links
+
+- [AIhub Documentation Writing Guide](./documentation-writing-guide)
+- [new-api Official Documentation](https://docs.newapi.pro/en/docs)

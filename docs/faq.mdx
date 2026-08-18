@@ -1,13 +1,13 @@
 ---
-title: 常见问题
+title: Frequently Asked Questions
 sidebar_position: 5
 ---
 
-# 常见问题
+# Frequently Asked Questions
 
-本文档汇总 AIhub 使用过程中的常见异常现象、原因分析与处理方法。
+This document summarizes common anomalies, cause analysis, and solutions encountered during the use of AIhub.
 
-AIhub 服务端地址：
+AIhub server endpoint:
 
 ```text
 https://aihub.skrepy.dpdns.org/
@@ -17,154 +17,154 @@ https://aihub.skrepy.dpdns.org/
 
 ## 401 Unauthorized
 
-**现象**：请求被拒绝，返回 HTTP 401 状态码，提示认证失败。
+**Symptom**: Request is rejected, returning HTTP 401 status code indicating authentication failure.
 
-**常见原因**：
+**Common causes**:
 
-- API Key 字符串错误
-- API Key 已失效或被重置
-- 请求头未包含 `Authorization: Bearer <key>` 或格式错误
-- 复制时带入额外空格或换行符
+- Incorrect API Key string
+- API Key has expired or been reset
+- Request header missing `Authorization: Bearer <key>` or malformed
+- Extra spaces or newline characters included when copying
 
-**处理方法**：
+**Solutions**:
 
-1. 从控制台重新复制 Key
-2. 确认请求头格式为 `Authorization: Bearer sk-xxxxxx`
-3. 确认 Base URL 指向正确
-4. 若 Key 已泄露，立即重置并更新所有调用点
+1. Recopy the Key from the console
+2. Confirm the request header format is `Authorization: Bearer sk-xxxxxx`
+3. Confirm the Base URL is correct
+4. If the Key has been leaked, reset it immediately and update all calling points
 
 ---
 
 ## 403 Forbidden
 
-**现象**：请求已通过认证，但服务端拒绝执行。
+**Symptom**: Request is authenticated but the server refuses to execute it.
 
-**常见原因**：
+**Common causes**:
 
-- 当前 Key 未授予所请求模型的调用权限
-- 账号权限不足以访问目标接口
-- 请求的资源受限
+- Current Key does not have permission to call the requested model
+- Account permissions are insufficient to access the target endpoint
+- Requested resource is restricted
 
-**处理方法**：
+**Solutions**:
 
-1. 核对模型名称是否准确
-2. 在控制台查看当前 Key 的模型权限范围
-3. 切换至可用模型重新发起调用
+1. Verify that the model name is correct
+2. Check the console for the model permission scope of the current Key
+3. Switch to an available model and retry the call
 
 ---
 
 ## 429 Too Many Requests
 
-**现象**：短时间内请求量超过限制，被服务端限流。
+**Symptom**: Request volume exceeds the limit within a short period, and the server throttles the requests.
 
-**常见原因**：
+**Common causes**:
 
-- 业务代码中存在高频循环调用
-- 重试策略间隔过短
-- 多个服务共享同一 Key 导致总量超限
+- High‑frequency loop calls in business code
+- Retry strategy intervals are too short
+- Multiple services sharing the same Key causing total volume to exceed limits
 
-**处理方法**：
+**Solutions**:
 
-- 降低请求频率，增加调用间隔
-- 实现指数退避重试机制
-- 检查代码逻辑，排除死循环或异常重放
-- 按应用隔离 Key，分散调用量
-
----
-
-## 模型不存在或不可用
-
-**现象**：请求成功发送，但返回错误提示模型未找到或无法使用。
-
-**常见原因**：
-
-- `model` 参数拼写错误
-- 模型已下线或当前不可用
-- 当前 Key 未开通该模型的访问权限
-
-**处理方法**：
-
-1. 在控制台查看当前可用的模型列表
-2. 确认 `model` 参数值与列表完全一致
-3. 更换为其他可用模型重试
+- Reduce request frequency and increase call intervals
+- Implement exponential backoff retry mechanism
+- Check code logic to eliminate infinite loops or abnormal replays
+- Isolate Keys per application to distribute call volume
 
 ---
 
-## 客户端连接失败
+## Model does not exist or is unavailable
 
-**现象**：客户端提示无法连接、请求超时或配置保存失败。
+**Symptom**: Request is sent successfully, but the server returns an error indicating the model is not found or cannot be used.
 
-**常见原因**：
+**Common causes**:
 
-- Base URL 填写错误（如漏写 `https://` 或末尾缺少 `/v1`）
-- 客户端不支持自定义 OpenAI 兼容接口
-- 本地网络无法访问 `https://aihub.skrepy.dpdns.org/`
-- 配置项未保存或保存后未重启客户端
+- Misspelling in the `model` parameter
+- Model has been deprecated or is currently unavailable
+- Current Key does not have access permissions for that model
 
-**处理方法**：
+**Solutions**:
 
-1. 确认 Base URL 为 `https://aihub.skrepy.dpdns.org/`
-2. 使用 curl 验证服务端可用性
-3. 检查网络环境是否受防火墙或代理限制
-4. 查阅客户端文档确认其支持自定义 API Base 的方式
+1. Check the console for the list of currently available models
+2. Confirm that the `model` parameter value exactly matches the list
+3. Switch to another available model and retry
 
 ---
 
-## 复制后 Key 无法使用
+## Client connection failure
 
-**现象**：从控制台复制 Key 后配置到客户端，仍返回认证失败。
+**Symptom**: Client reports inability to connect, request timeout, or configuration save failure.
 
-**常见原因**：
+**Common causes**:
 
-- 复制不完整，遗漏部分字符
-- 复制时附带前后空格或换行
-- 误将 Key 名称或 Key ID 当作 Key 值复制
-- 使用的 Key 已被重置，实际为旧值
+- Incorrect Base URL (e.g., missing `https://` or trailing `/v1`)
+- Client does not support custom OpenAI‑compatible endpoints
+- Local network cannot reach `https://aihub.skrepy.dpdns.org/`
+- Configuration not saved, or client not restarted after saving
 
-**处理方法**：
+**Solutions**:
 
-- 重新复制完整 Key 字符串
-- 粘贴后检查首尾是否存在不可见字符
-- 确认粘贴位置为 API Key 字段，而非其他配置项
-- 若无法确认状态，直接创建新 Key 替换
-
----
-
-## 单应用单 Key 的设计原则
-
-为每个应用独立创建 API Key 具有以下优势：
-
-- 调用日志按 Key 隔离，便于定位异常来源
-- 单个 Key 泄露时仅影响对应应用，风险可控
-- 各 Key 可独立重置，无需全局更新
+1. Confirm the Base URL is `https://aihub.skrepy.dpdns.org/`
+2. Use curl to verify server availability
+3. Check whether network environment is restricted by firewalls or proxies
+4. Refer to client documentation to confirm support for custom API Base
 
 ---
 
-## API Key 泄露后的紧急处理
+## Copied Key does not work
 
-确认或高度怀疑 Key 已泄露时，执行以下步骤：
+**Symptom**: After copying the Key from the console and configuring it in the client, authentication still fails.
 
-1. **立即重置**该 Key，使其立即失效
-2. **更新**所有使用该 Key 的应用配置，替换为新 Key
-3. **检查**代码仓库、日志文件、聊天记录中是否存在该 Key 的明文记录
-4. **删除**所有包含该 Key 的公开截图或分享内容
+**Common causes**:
 
----
+- Incomplete copy, missing characters
+- Extra leading/trailing spaces or newlines included when copying
+- Mistakenly copying the Key name or Key ID instead of the Key value
+- The Key being used has been reset and the stored value is old
 
-## 通用排查流程
+**Solutions**:
 
-遇到任何接入异常时，按以下顺序逐一检查：
-
-1. API Key 是否正确
-2. Base URL 是否为 `https://aihub.skrepy.dpdns.org/`
-3. 请求头是否包含 `Bearer` 前缀
-4. 模型名称是否在当前可用列表中
-5. 客户端是否支持 OpenAI 兼容协议
+- Recopy the complete Key string
+- After pasting, check for invisible characters at the beginning or end
+- Confirm the pasted value is in the API Key field, not another configuration item
+- If uncertain, create a new Key and replace it
 
 ---
 
-## 后续指引
+## Design principle: one Key per application
 
-- [快速开始](./quickstart)
-- [API Key 管理](./api-key)
-- [客户端接入](./clients)
+Creating an independent API Key for each application has the following advantages:
+
+- Call logs are isolated by Key, making it easier to trace the source of anomalies
+- If a single Key is compromised, only the corresponding application is affected, keeping risk manageable
+- Each Key can be reset independently without requiring global updates
+
+---
+
+## Emergency handling after API Key leak
+
+When a Key is confirmed or highly suspected to be leaked, perform the following steps:
+
+1. **Reset** the Key immediately to render it invalid
+2. **Update** all application configurations that use the Key, replacing it with the new Key
+3. **Check** code repositories, log files, and chat logs for any plaintext record of the Key
+4. **Delete** all public screenshots or shared content containing the Key
+
+---
+
+## General troubleshooting flow
+
+For any integration anomaly, check the following in order:
+
+1. Is the API Key correct?
+2. Is the Base URL `https://aihub.skrepy.dpdns.org/`?
+3. Does the request header include the `Bearer` prefix?
+4. Is the model name in the current available list?
+5. Does the client support the OpenAI‑compatible protocol?
+
+---
+
+## Next Steps
+
+- [Quick Start](./quickstart)
+- [API Key Management](./api-key)
+- [Client Integration](./clients)

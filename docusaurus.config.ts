@@ -3,6 +3,12 @@ import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
+const currentLocale = process.env.DOCUSAURUS_CURRENT_LOCALE || 'en';
+const announcementContent =
+  {
+    en: 'AIhub is still under construction, and the AIhub Docs homepage is a demo layout.',
+    zh: 'AIhub 仍在搭建中，AIhub Docs 主页仅为示例界面',
+  }[currentLocale] || 'AIhub is still under construction...';
 
 const config: Config = {
   title: 'AIhub Docs',
@@ -27,12 +33,13 @@ const config: Config = {
 
   onBrokenLinks: 'throw',
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'zh',
-    locales: ['zh'],
+    defaultLocale: 'en',
+    locales: ['en', 'zh'],
+    localeConfigs: {
+      en: { htmlLang: 'en-GB', label: 'English' },
+      zh: { htmlLang: 'zh-CN', label: '简体中文' },
+    },
   },
 
   presets: [
@@ -40,6 +47,7 @@ const config: Config = {
       'classic',
       {
         docs: {
+          routeBasePath: 'docs',
           sidebarPath: './sidebars.ts',
           editUrl: 'https://github.com/Skrepy0/aihub-docs/tree/main/',
         },
@@ -54,7 +62,7 @@ const config: Config = {
       require.resolve('@easyops-cn/docusaurus-search-local'),
       {
         hashed: true,
-        language: ['zh', 'en'],
+        language: ['en', 'zh'],
         indexDocs: true,
         indexPages: false,
       },
@@ -72,7 +80,7 @@ const config: Config = {
     // 公告栏（可选，展示版本信息或重要通知）
     announcementBar: {
       id: 'announcement',
-      content: 'AIhub 仍在搭建中, AIhub Docs 主页仅为示例界面',
+      content: announcementContent,
       backgroundColor: '#ffb300',
       textColor: '#fff',
       isCloseable: true,
@@ -90,12 +98,16 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'docsSidebar',
           position: 'left',
-          label: '文档',
+          label: 'Docs',
         },
         {
-          to: '/docs/文档编写指南',
+          to: '/docs/intro',
           position: 'right',
-          label: '文档编写指南',
+          label: 'Getting Started',
+        },
+        {
+          type: 'localeDropdown',
+          position: 'left',
         },
         {
           href: 'https://github.com/Skrepy0/aihub-docs',
@@ -113,20 +125,20 @@ const config: Config = {
     footer: {
       links: [
         {
-          title: '文档',
+          title: 'Docs',
           items: [
             {
-              label: '快速开始',
-              to: '/docs/intro',
+              label: 'Quick Start',
+              to: '/docs/quickstart',
             },
             {
-              label: '文档编写指南',
-              to: '/docs/文档编写指南',
+              label: 'Writing Guide',
+              to: '/docs/documentation-writing-guide',
             },
           ],
         },
         {
-          title: '社区',
+          title: 'Community',
           items: [
             {
               label: 'GitHub Issues',
@@ -135,17 +147,8 @@ const config: Config = {
           ],
         },
         {
-          title: '更多',
-          items: [
-            // {
-            //   label: '关于我们',
-            //   to: '/about',
-            // },
-            // {
-            //   label: '隐私政策',
-            //   to: '/privacy',
-            // },
-          ],
+          title: 'More',
+          items: [],
         },
       ],
       copyright: `Copyright © ${new Date().getFullYear()} AIhub. Built with Docusaurus.`,

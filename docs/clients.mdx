@@ -1,89 +1,89 @@
 ---
-title: 客户端接入
+title: Client Integration
 sidebar_position: 4
 ---
 
 import Picture from '@site/src/components/Picture';
 
-# 客户端接入
+# Client Integration
 
-AIhub 提供 OpenAI 兼容接口，支持任何允许自定义 API Base 的客户端接入。本页以 Claude Code、Codex、AnythingLLM 为例，说明具体配置方法。
+AIhub provides an OpenAI-compatible interface, supporting integration with any client that allows a custom API Base. This page uses Claude Code, Codex, and AnythingLLM as examples to illustrate specific configuration methods.
 
-AIhub 接口地址：
+AIhub endpoint:
 
 ```text
 https://aihub.skrepy.dpdns.org/
 ```
 
-> 字段命名差异：Claude Code 使用 `ANTHROPIC_BASE_URL` 和 `ANTHROPIC_AUTH_TOKEN`；Codex、AnythingLLM等 OpenAI 兼容客户端使用 `OPENAI_BASE_URL` 和 `OPENAI_API_KEY`。下文按各客户端实际字段分别说明。
+> Field naming differences: Claude Code uses `ANTHROPIC_BASE_URL` and `ANTHROPIC_AUTH_TOKEN`; OpenAI-compatible clients like Codex and AnythingLLM use `OPENAI_BASE_URL` and `OPENAI_API_KEY`. The following sections describe the actual fields used by each client.
 
 ---
 
-## 接入前准备
+## Prerequisites
 
-开始配置前，确认以下三项：
+Before starting configuration, confirm the following three items:
 
-- 已在 AIhub 创建 API Key
-- 已知当前可用的模型名（例如 `hy3`）
-- 当前网络可访问 `https://aihub.skrepy.dpdns.org/`
+- An API Key has been created in AIhub
+- The currently available model name is known (e.g., `hy3`)
+- The network can access `https://aihub.skrepy.dpdns.org/`
 
-不同客户端对配置项的命名存在差异，对应关系如下：
+Different clients use different naming conventions for configuration items. The mapping is as follows:
 
-| 实际含义 | 常见字段名                                  |
-| -------- | ------------------------------------------- |
-| API Key  | API Key / Key / Token                       |
-| Base URL | Base URL / API Base / Endpoint / Server URL |
-| Model    | Model / Model Name / 模型名                 |
+| Actual meaning | Common field names                          |
+| -------------- | ------------------------------------------- |
+| API Key        | API Key / Key / Token                       |
+| Base URL       | Base URL / API Base / Endpoint / Server URL |
+| Model          | Model / Model Name                          |
 
 ---
 
 ## Claude Code
 
-Claude Code 通过环境变量或 `settings.json` 指定模型服务的地址与密钥。接入 AIhub 时，将请求指向 AIhub 并填入对应 Key。
+Claude Code specifies the model service address and key via environment variables or a `settings.json` file. To connect to AIhub, point the requests to AIhub and fill in the corresponding Key.
 
-### 配置文件位置
+### Configuration File Location
 
-Claude Code 的 `settings.json` 有两个层级：
+Claude Code's `settings.json` has two levels:
 
-- **用户级**：对所有项目生效
-  - Windows：`%USERPROFILE%\.claude\settings.json`
-  - macOS / Linux：`~/.claude/settings.json`
-- **项目级**：仅对当前项目生效
-  - `<项目根目录>\.claude\settings.json`
+- **User-level**: applies to all projects
+  - Windows: `%USERPROFILE%\.claude\settings.json`
+  - macOS / Linux: `~/.claude/settings.json`
+- **Project-level**: applies only to the current project
+  - `<project root>\.claude\settings.json`
 
-实际路径举例（Windows）：
+Example actual path (Windows):
 
 ```text
-C:\Users\你的用户名\.claude\settings.json
+C:\Users\YourUsername\.claude\settings.json
 ```
 
-若文件不存在，新建一个 `settings.json` 即可。
+If the file does not exist, create a new `settings.json`.
 
-### 打开配置文件
+### Opening the Configuration File
 
-**方式一：文件管理器**
+**Method 1: File Explorer**
 
-1. 打开资源管理器，进入 `C:\Users\你的用户名\.claude\`
-2. 找到或新建 `settings.json`
-3. 用 VS Code 或记事本打开
+1. Open File Explorer and navigate to `C:\Users\YourUsername\.claude\`
+2. Find or create `settings.json`
+3. Open it with VS Code or Notepad
 
-**方式二：命令行**
+**Method 2: Command Line**
 
-Windows（PowerShell）：
+Windows (PowerShell):
 
 ```powershell
 notepad $env:USERPROFILE\.claude\settings.json
 ```
 
-macOS / Linux：
+macOS / Linux:
 
 ```bash
 code ~/.claude/settings.json
 ```
 
-### 完整配置示例
+### Complete Configuration Example
 
-以下是一个接入 AIhub 的完整 `settings.json`：
+Below is a full `settings.json` for connecting to AIhub:
 
 ```json
 {
@@ -109,42 +109,42 @@ code ~/.claude/settings.json
 }
 ```
 
-### 配置项说明
+### Configuration Fields Explained
 
-**`env` 中的模型相关变量**
+**Model‑related variables in `env`**
 
-| 变量                             | 作用                        | 示例                             |
-| -------------------------------- | --------------------------- | -------------------------------- |
-| `ANTHROPIC_AUTH_TOKEN`           | AIhub API Key，用于鉴权     | `sk-xxxxxx`                      |
-| `ANTHROPIC_BASE_URL`             | 请求发送地址，填 AIhub 接口 | `https://aihub.skrepy.dpdns.org` |
-| `ANTHROPIC_MODEL`                | 默认模型                    | `hy3`                            |
-| `ANTHROPIC_SMALL_FAST_MODEL`     | 轻量/快速任务使用的模型     | `hy3`                            |
-| `ANTHROPIC_DEFAULT_SONNET_MODEL` | Sonnet 档位模型             | `hy3`                            |
-| `ANTHROPIC_DEFAULT_OPUS_MODEL`   | Opus 档位模型               | `hy3`                            |
-| `ANTHROPIC_DEFAULT_HAIKU_MODEL`  | Haiku 档位模型              | `hy3`                            |
-| `CLAUDE_CODE_SUBAGENT_MODEL`     | 子代理使用的模型            | `hy3`                            |
+| Variable                         | Purpose                               | Example                          |
+| -------------------------------- | ------------------------------------- | -------------------------------- |
+| `ANTHROPIC_AUTH_TOKEN`           | AIhub API Key for authentication      | `sk-xxxxxx`                      |
+| `ANTHROPIC_BASE_URL`             | Request endpoint, set to AIhub        | `https://aihub.skrepy.dpdns.org` |
+| `ANTHROPIC_MODEL`                | Default model                         | `hy3`                            |
+| `ANTHROPIC_SMALL_FAST_MODEL`     | Model used for lightweight/fast tasks | `hy3`                            |
+| `ANTHROPIC_DEFAULT_SONNET_MODEL` | Sonnet‑tier model                     | `hy3`                            |
+| `ANTHROPIC_DEFAULT_OPUS_MODEL`   | Opus‑tier model                       | `hy3`                            |
+| `ANTHROPIC_DEFAULT_HAIKU_MODEL`  | Haiku‑tier model                      | `hy3`                            |
+| `CLAUDE_CODE_SUBAGENT_MODEL`     | Model used by sub‑agents              | `hy3`                            |
 
-> 若仅接入 AIhub，不要求将所有档位变量填为同一值；但统一指向一个可用模型，可避免 Claude Code 在调用特定档位模型时因找不到模型而报错。
+> If you are only connecting to AIhub, you are not required to set all tier variables to the same value; however, pointing them all to an available model prevents Claude Code from failing when it attempts to call a specific tier that is not available.
 
-**其它运行参数**
+**Other runtime parameters**
 
-| 变量                                       | 作用                             | 示例    |
-| ------------------------------------------ | -------------------------------- | ------- |
-| `CLAUDE_CODE_MAX_OUTPUT_TOKENS`            | 单次回复的最大输出 token 数      | `81929` |
-| `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` | 关闭非必要网络请求，`1` 表示开启 | `1`     |
+| Variable                                   | Purpose                                          | Example |
+| ------------------------------------------ | ------------------------------------------------ | ------- |
+| `CLAUDE_CODE_MAX_OUTPUT_TOKENS`            | Maximum output tokens per response               | `81929` |
+| `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC` | Disable non‑essential network requests, `1` = on | `1`     |
 
-**顶层配置项**
+**Top‑level configuration items**
 
-| 配置项              | 作用                                |
-| ------------------- | ----------------------------------- |
-| `env`               | 注入到 Claude Code 运行时的环境变量 |
-| `permissions.allow` | 允许自动执行的命令白名单            |
-| `permissions.deny`  | 禁止执行的命令列表                  |
-| `enabledPlugins`    | 已启用插件的开关                    |
+| Config item         | Purpose                                            |
+| ------------------- | -------------------------------------------------- |
+| `env`               | Environment variables injected into Claude Code    |
+| `permissions.allow` | Whitelist of commands allowed to run automatically |
+| `permissions.deny`  | List of commands to block                          |
+| `enabledPlugins`    | Toggle for enabled plugins                         |
 
-### 最小可用配置
+### Minimal Working Configuration
 
-若仅需验证连通性，以下配置即可：
+If you only need to verify connectivity, the following configuration is sufficient:
 
 ```json
 {
@@ -156,13 +156,13 @@ code ~/.claude/settings.json
 }
 ```
 
-未单独指定档位模型时，Claude Code 会回退使用 `ANTHROPIC_MODEL`。
+If tier‑specific models are not explicitly set, Claude Code falls back to `ANTHROPIC_MODEL`.
 
-### 通过系统环境变量配置
+### Configuring via System Environment Variables
 
-也可直接在终端设置环境变量，无需修改配置文件：
+You can also set environment variables directly in the terminal without modifying the configuration file:
 
-Windows（PowerShell）：
+Windows (PowerShell):
 
 ```powershell
 $env:ANTHROPIC_AUTH_TOKEN = "sk-xxxxxx"
@@ -170,7 +170,7 @@ $env:ANTHROPIC_BASE_URL = "https://aihub.skrepy.dpdns.org"
 $env:ANTHROPIC_MODEL = "hy3"
 ```
 
-macOS / Linux：
+macOS / Linux:
 
 ```bash
 export ANTHROPIC_AUTH_TOKEN=sk-xxxxxx
@@ -178,132 +178,133 @@ export ANTHROPIC_BASE_URL=https://aihub.skrepy.dpdns.org
 export ANTHROPIC_MODEL=hy3
 ```
 
-> 环境变量 `ANTHROPIC_AUTH_TOKEN` 和 `ANTHROPIC_BASE_URL` 的优先级高于 `settings.json` 中的配置。
+> Environment variables `ANTHROPIC_AUTH_TOKEN` and `ANTHROPIC_BASE_URL` take precedence over the settings in `settings.json`.
 
-### 配置步骤
+### Configuration Steps
 
-1. 打开 `settings.json`
-2. 在 `env` 中填入 `ANTHROPIC_AUTH_TOKEN`
-3. 在 `env` 中填入 `ANTHROPIC_BASE_URL`
-4. 在 `env` 中填入 `ANTHROPIC_MODEL`
-5. 保存文件并重启 Claude Code
-6. 发送一条消息验证
+1. Open `settings.json`
+2. In `env`, fill in `ANTHROPIC_AUTH_TOKEN`
+3. In `env`, fill in `ANTHROPIC_BASE_URL`
+4. In `env`, fill in `ANTHROPIC_MODEL`
+5. Save the file and restart Claude Code
+6. Send a test message to verify
 
-### 常见问题
+### Common Issues
 
-**连接失败**
+**Connection failure**
 
-依次排查：
+Check in order:
 
-- `settings.json` 是否为合法 JSON
-- `ANTHROPIC_BASE_URL` 是否包含多余空格或漏写 `https://`
-- `ANTHROPIC_AUTH_TOKEN` 是否完整复制
-- 修改后是否重启 Claude Code
-- 网络是否可访问 `https://aihub.skrepy.dpdns.org`
+- Is `settings.json` valid JSON?
+- Does `ANTHROPIC_BASE_URL` contain extra spaces or omit `https://`?
+- Is `ANTHROPIC_AUTH_TOKEN` copied completely?
+- Did you restart Claude Code after making changes?
+- Can the network reach `https://aihub.skrepy.dpdns.org`?
 
-**提示 JSON 格式错误**
+**JSON format error**
 
-多为多余逗号、缺失引号或不匹配的大括号导致。先退回到最小配置，再逐步补充。
+Usually caused by trailing commas, missing quotes, or mismatched braces. Revert to the minimal configuration and gradually add back settings.
 
-**保存配置后无法正常对话**
+**Cannot chat after saving configuration**
 
-多为模型名不可用、AIhub 未开放对应模型，或请求实际未经过 AIhub。可用 curl 验证接口本身是否正常。
+Often caused by an unavailable model name, AIhub not supporting the specified model, or requests not actually going through AIhub. Use curl to verify the endpoint itself is working.
 
 ---
 
 ## Codex
 
-首先下载一个CodexApp的增强工具:[Codex++](https://codexpp.cc)
-下载并安装后, 启动Codex++ 管理工具.
+First, download an enhancement tool for CodexApp: [Codex++](https://codexpp.cc)
 
-在左侧侧边栏选择"供应商配置", 然后添加供应商.
+After downloading and installing, launch the Codex++ management tool.
 
-接入模式选择"纯API"
+In the left sidebar, select "Provider Configuration", then add a provider.
 
-Base URL填写`https://aihub.skrepy.dpdns.org/v1`
+Choose "Pure API" as the integration mode.
 
-然后填写你的`API密钥`和你要使用的AI模型
+Fill in the Base URL as `https://aihub.skrepy.dpdns.org/v1`
 
-<Picture url="/img/clients/codex_provider_config.webp" info="Codex 供应商示例配置" />
+Then enter your `API Key` and the AI model you intend to use.
 
-然后点击右上角保存, 然后选择刚才创建的供应商.
+<Picture url="/img/clients/codex_provider_config.webp" info="Codex provider example configuration" />
 
-最后点击右上角"重启Codex++"即可完成配置
+Click "Save" in the upper right corner, then select the provider you just created.
+
+Finally, click "Restart Codex++" in the upper right corner to complete the configuration.
 
 ---
 
 ## AnythingLLM
 
-AnythingLLM 支持通过 `Generic OpenAI` provider 接入自定义 OpenAI 兼容服务。
+AnythingLLM supports connecting to custom OpenAI‑compatible services via the `Generic OpenAI` provider.
 
-### 配置步骤
+### Configuration Steps
 
-1. 打开 AnythingLLM 应用（Desktop 或 Docker）
-2. 进入 设置 → 人工智能供应商 → 大语言模型(LLM)
-3. 在 LLM provider 搜索框中输入 `Generic OpenAI` 并选择
-4. 填入 Base URL
-5. 填入 API Key
-6. 填入 Chat Model Name
-7. 根据需要设置 Token Context Window 和 Max Tokens
-8. 保存配置
-9. 新建 workspace，发送测试消息验证
+1. Open the AnythingLLM application (Desktop or Docker)
+2. Go to Settings → AI Providers → Large Language Model (LLM)
+3. Type `Generic OpenAI` in the LLM provider search box and select it
+4. Fill in the Base URL
+5. Fill in the API Key
+6. Fill in the Chat Model Name
+7. Adjust Token Context Window and Max Tokens as needed
+8. Save the configuration
+9. Create a new workspace and send a test message to verify
 
-### 填写项
+### Fields to Fill
 
-<Picture url="/img/clients/AnythingLLM_config.webp" info="AnythingLLM 配置" />
+<Picture url="/img/clients/AnythingLLM_config.webp" info="AnythingLLM configuration" />
 
-- **LLM Provider**：选择 `Generic OpenAI`
-- **Base URL**：`https://aihub.skrepy.dpdns.org/v1`
-- **API Key**：AIhub 的 Key
-- **Chat Model Name**：可用模型名（如 `hy3`）
-- **Token Context Window**：根据模型限制设置（如 `16000`、`128000`）
-- **Max Tokens**：按需配置（如 `1024`、`2048`）
+- **LLM Provider**: Select `Generic OpenAI`
+- **Base URL**: `https://aihub.skrepy.dpdns.org/v1`
+- **API Key**: Your AIhub Key
+- **Chat Model Name**: Available model name (e.g., `hy3`)
+- **Token Context Window**: Set according to model limits (e.g., `16000`, `128000`)
+- **Max Tokens**: Configure as needed (e.g., `1024`, `2048`)
 
-> AnythingLLM 使用 `OPENAI_API_KEY` 字段，勿写成 `ANTHROPIC_*`。
+> AnythingLLM uses the `OPENAI_API_KEY` field; do not use `ANTHROPIC_*`.
 
-### 排错
+### Troubleshooting
 
-- Provider 是否选为 `Generic OpenAI`
-- Base URL 是否完整（含 `/v1` 后缀）
-- Model 是否可用
-- 配置是否保存
-
----
-
-## 通用配置原则
-
-不同客户端配置的关键差异集中在两个方面：
-
-**字段命名体系**：
-
-- Anthropic 风格（Claude Code）：`ANTHROPIC_*` 前缀
-- OpenAI 风格（Codex、AnythingLLM 上层工具）：`OPENAI_*` 前缀
-
-配置前先确认客户端实际读取的字段名，避免混用。
-
-**Base URL 格式**：
-
-- 大部分 OpenAI 兼容客户端要求 Base URL 以 `/v1` 结尾
-- 部分客户端（如 Claude Code）接受无后缀的根地址
-- 若连接失败，尝试在 Base URL 末尾添加或移除 `/v1`
+- Is the provider set to `Generic OpenAI`?
+- Is the Base URL complete (with `/v1` suffix)?
+- Is the model name available?
+- Was the configuration saved?
 
 ---
 
-## 通用排查顺序
+## General Configuration Principles
 
-接入失败时，按以下顺序排查：
+The key differences across clients are mainly in two areas:
 
-1. Key 是否正确
-2. Base URL 是否为 `https://aihub.skrepy.dpdns.org/`（注意 `/v1` 后缀）
-3. 模型名是否正确
-4. 客户端是否支持 OpenAI 兼容接口
-5. 配置是否已保存
-6. 是否存在网络访问限制
+**Field naming conventions**:
+
+- Anthropic style (Claude Code): uses `ANTHROPIC_*` prefix
+- OpenAI style (Codex, AnythingLLM and upper‑layer tools): uses `OPENAI_*` prefix
+
+Before configuring, confirm the actual field names used by the client to avoid mixing them.
+
+**Base URL format**:
+
+- Most OpenAI‑compatible clients require the Base URL to end with `/v1`
+- Some clients (e.g., Claude Code) accept the root address without the suffix
+- If connection fails, try adding or removing `/v1` at the end of the Base URL
 
 ---
 
-## 下一步
+## General Troubleshooting Sequence
 
-- [快速开始](./quickstart)
-- [API Key 管理](./api-key)
-- [常见问题](./faq)
+If integration fails, check in this order:
+
+1. Is the Key correct?
+2. Is the Base URL `https://aihub.skrepy.dpdns.org/` (pay attention to the `/v1` suffix)?
+3. Is the model name correct?
+4. Does the client support the OpenAI‑compatible interface?
+5. Has the configuration been saved?
+6. Are there any network access restrictions?
+
+---
+
+## Next Steps
+
+- [Quick Start](./quickstart)
+- [API Key Management](./api-key)
+- [FAQ](./faq)
